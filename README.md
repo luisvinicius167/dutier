@@ -169,8 +169,8 @@ import {subscribe, unsubscribe, getState} from 'dux';
   
   componentWillMount(){
      // when some state change, do something.
-     subscribe(this, ( data ) => {
-       this.setState({count: getState('count')})
+     subscribe(this, ({value}) => {
+       this.setState({count: value})
      });
   }
   
