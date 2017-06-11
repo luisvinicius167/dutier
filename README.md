@@ -1,27 +1,27 @@
-<img width="200" src="https://raw.githubusercontent.com/luisvinicius167/duxter/master/img/duxter-logo.png"/> 
+<img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-duxter is a small 1kb and simple centralized state management for Javascript applications. <br/>
+Dutier is a small 1kb and simple centralized state management for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/duxter)
-[![CDN](https://img.shields.io/badge/cdn-0.0.1-ff69b4.svg)](https://unpkg.com/duxter@0.0.1)
+[![npm package](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.0.1-ff69b4.svg)](https://unpkg.com/dutier@0.0.1)
 
 
 ### Influences
-Dux provides more control of your application state. It's envolve ideas of ReDuxter and Flux, but explores all power of Promises, doing the work with async action easy.
+Dutier provides more control of your application state. It's envolve ideas of Redux.
 
 ## Getting Started
 
 ### Install
-* Npm: ``` npm install duxter ```
-* Bower: ``` bower install duxter ```
-* CDN: ```https://unpkg.com/duxter@0.0.1```
+* Npm: ``` npm install dutier ```
+* Bower: ``` bower install dutier ```
+* CDN: ```https://unpkg.com/dutier@0.0.1```
 
 ### Features
- * small 1kb minified & gzipped
+ * small 1kb minified
  * simple, small learning curve
  * immutable
  * promise based
- * inspired on ReDuxter
+ * inspired on Redutier
  * tiny API.
 
 ### The Gist
@@ -31,7 +31,7 @@ You can receive the result of your action using ``.then`` after your ``dispatch`
 That's it!
 
 ```javascript
-import { setState, subscribe, dispatch, getState } from 'duxter';
+import { setState, subscribe, dispatch, getState } from 'dutier';
 
 /**
  * Set your store state in a single object.
@@ -74,25 +74,22 @@ console.log(getState().count) // 1
 
 Dispatch
  * Trigger some action for do something. A Promise will be returned, that contain an Object with the <br>
-  keys ``action`` and ``value`` of your correspondent action response.
+ * the action payload.
 ```javascript
 /**
  * @name dispatch
  * @description Trigger some action.
- * @param {string} actionName Action name
- * @param { arguments } Arguments You can pass the arguments after the actionName
- * @return {Promise} Return a Promise with an Object that contain the value 
- * of the action and the action name. 
- * {value, action} = data;
+ * @param { Function } The function that return your action payload
+ * @return {Promise} Return a Promise with the action payload
  */
 
 // On your component
-import {dispatch} from 'duxter';
+import {dispatch} from 'dutier';
 
 // You can receive the response of your action and do something, or not.
 // If you whant, you can chaining the dispatch Promises.
 dispatch(increment(1))
-  .then( data => {
+  .then( { type, value } => {
   console.log(`Some action was called, the action type: ${type} and the action value: ${value}.`);
   });
 ```
@@ -102,20 +99,18 @@ Actions
 
 
 
-Store State
+createStore
  * Set the application Store state
 ```javascript
 /**
- * @name setState
+ * @name createStore
  * @description Set you application store state
  * @param {object} state Your application state data
  */
  
-import {setState} from 'duxter';
+import {createStore} from 'dutier';
 
-setState({
-  count: 1
-});
+createStore( { count: 1 } );
 ```
 
 Getting the Store State
@@ -126,7 +121,7 @@ Getting the Store State
  * @description Get the state value
  */
  
-import {getState} from 'duxter';
+import {getState} from 'dutier';
 
 getState(); // returns a copy of your store state
 ```
@@ -141,7 +136,7 @@ Middleware
  * you use the dispatch method. Receives your payload
  */
  
-import { middleware } from 'duxter';
+import { middleware } from 'dutier';
 
 middleware( action  => {
     console.log(action);
@@ -161,7 +156,7 @@ Subscribe/Unsubscribe
  * @param { handler } handler Your function that will be triggered when some state change.
  */
  
-import {subscribe, unsubscribe, getState} from 'duxter';
+import {subscribe, unsubscribe, getState} from 'dutier';
   
   componentWillMount(){
      // when some state change, do something.

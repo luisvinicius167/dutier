@@ -1,24 +1,26 @@
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
 ;(function (root, factory) {
   if (typeof define === 'function' && define.amd) {
-    define([], factory)
-  } else if (typeof exports === 'object') {
+    define([], factory);
+  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
     module.exports = {
       dispatch: factory.dispatch,
       getState: factory.getState,
-      setState: factory.setState,
+      createStore: factory.createStore,
       subscribe: factory.subscribe,
       middleware: factory.middleware,
       unsubscribe: factory.unsubscribe
-    }
+    };
   } else {
-    root.Duxter = factory
+    root.Dutier = factory;
   }
-}(this, function (global) {
+})(this, function (global) {
   /**
-   * @name Duxter
+   * @name Dutier
    * @description The object that will manage all application state
    */
-  let Duxter = {
+  var Dutier = {
     /**
      * @name _store
      * @description The private store
@@ -36,29 +38,29 @@
       components: [],
       middleware: {}
     }
-  }
+  };
 
-  function applyMiddleware (action) {
-    return value => {
-      let middleware = Duxter._store.middleware
+  function applyMiddleware(action) {
+    return function (value) {
+      var middleware = Dutier._store.middleware;
       /**
          * has middleware?
          **/
       if (typeof middleware === 'function') {
-        middleware.call(null, action, Object.assign({}, Duxter.mockStoreState))
+        middleware.call(null, action, Object.assign({}, Dutier.mockStoreState));
       }
 
-      return action
-    }
+      return action;
+    };
   }
 
-  function updateComponent (action) {
-    Duxter._store.components.forEach(el => {
+  function updateComponent(action) {
+    Dutier._store.components.forEach(function (el) {
       if (el.component !== undefined && typeof el.handler === 'function') {
-        el.handler(action)
+        el.handler(action);
       }
-    })
-    return action
+    });
+    return action;
   }
   return {
     /**
@@ -67,19 +69,16 @@
      * @param {Component} component The Component
      * @param {Function} handler The function that will be called
      **/
-    subscribe: (component, handler) => {
-      Duxter
-        ._store
-        .components
-        .push({component, handler})
+    subscribe: function subscribe(component, handler) {
+      Dutier._store.components.push({ component: component, handler: handler });
     },
-    unsubscribe: (component) => {
-      let components = Duxter._store.components
-      components.forEach((el, index) => {
+    unsubscribe: function unsubscribe(component) {
+      var components = Dutier._store.components;
+      components.forEach(function (el, index) {
         if (el === component) {
-          components.splice(index, 1)
+          components.splice(index, 1);
         }
-      })
+      });
     },
     /**
      * @name middleware
@@ -87,8 +86,8 @@
      * every time when an action called.
      * @param {Function} callback A function that will be called
      **/
-    middleware: callback => {
-      Duxter._store.middleware = callback
+    middleware: function middleware(callback) {
+      Dutier._store.middleware = callback;
     },
     /**
      * @name dispatch
@@ -97,27 +96,25 @@
      * @param { string } action The action name
      * @param { any } args Arguments sended to the action
      */
-    dispatch: (action) => {
-      return Promise
-        .resolve(action)
-        .then(applyMiddleware(action))
-        .then(updateComponent)
+    dispatch: function dispatch(action) {
+      return Promise.resolve(action).then(applyMiddleware(action)).then(updateComponent);
     },
     /**
      * @name setState
      * @description Sets the application data state
      * @param {object} data Simple Object that contain the State
      */
-    setState: (data) => {
-      // setting the immutable initial stat return Duxter.storee
-      Object.assign(Duxter._store.state, data)
+    createStore: function createStore(state) {
+      // setting the immutable initial state return Dutier.store
+      Object.assign(Dutier._store.state, state);
     },
     /**
      * @name getState
      * @return {Object} a copy of the state
      */
-    getState: () => {
-      return Object.assign({}, Duxter._store.state)
+    getState: function getState() {
+      return Object.assign({}, Dutier._store.state);
     }
-  }
-}(this)))
+  };
+}(this));
+//# sourceMappingURL=dutier.js.map
