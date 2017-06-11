@@ -8,14 +8,14 @@ module.exports = function (grunt) {
       },
       dist: {
         files: {
-          'dist/dux.js': 'src/dux.js'
+          'dist/duxter.js': 'src/duxter.js'
         }
       }
     },
     uglify: {
       my_target: {
         files: {
-          'dist/dux.min.js': ['dist/dux.js']
+          'dist/duxter.min.js': ['dist/duxter.js']
         }
       },
     },

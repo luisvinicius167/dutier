@@ -1,27 +1,27 @@
-<img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dux/master/img/dux-logo.png"/> 
+<img width="200" src="https://raw.githubusercontent.com/luisvinicius167/Duxter/master/img/duxter-logo.png"/> 
 
-Dux is a small 1kb and simple centralized state management for Javascript applications. <br/>
+duxter is a small 1kb and simple centralized state management for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/dux)
-[![CDN](https://img.shields.io/badge/cdn-0.0.1-ff69b4.svg)](https://unpkg.com/dux@0.0.1)
+[![npm package](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/duxter)
+[![CDN](https://img.shields.io/badge/cdn-0.0.1-ff69b4.svg)](https://unpkg.com/duxter@0.0.1)
 
 
 ### Influences
-Dux provides more control of your application state. It's envolve ideas of Redux and Flux, but explores all power of Promises, doing the work with async action easy.
+Dux provides more control of your application state. It's envolve ideas of ReDuxter and Flux, but explores all power of Promises, doing the work with async action easy.
 
 ## Getting Started
 
 ### Install
-* Npm: ``` npm install dux ```
-* Bower: ``` bower install dux ```
-* CDN: ```https://unpkg.com/dux@0.0.1```
+* Npm: ``` npm install duxter ```
+* Bower: ``` bower install duxter ```
+* CDN: ```https://unpkg.com/duxter@0.0.1```
 
 ### Features
  * small 1kb minified & gzipped
  * simple, small learning curve
  * immutable
  * promise based
- * inspired on Redux
+ * inspired on ReDuxter
  * tiny API.
 
 ### The Gist
@@ -31,7 +31,7 @@ You can receive the result of your action using ``.then`` after your ``dispatch`
 That's it!
 
 ```javascript
-import { setState, subscribe, dispatch, getState } from 'dux';
+import { setState, subscribe, dispatch, getState } from 'duxter';
 
 /**
  * Set your store state in a single object.
@@ -87,7 +87,7 @@ Dispatch
  */
 
 // On your component
-import {dispatch} from 'dux';
+import {dispatch} from 'duxter';
 
 // You can receive the response of your action and do something, or not.
 // If you whant, you can chaining the dispatch Promises.
@@ -111,8 +111,7 @@ Store State
  * @param {object} state Your application state data
  */
  
-// store/index.js
-import {setState} from 'dux';
+import {setState} from 'duxter';
 
 setState({
   count: 1
@@ -127,8 +126,7 @@ Getting the Store State
  * @description Get the state value
  */
  
-// store/index.js
-import {getState} from 'dux';
+import {getState} from 'duxter';
 
 getState(); // returns a copy of your store state
 ```
@@ -143,8 +141,7 @@ Middleware
  * you use the dispatch method. Receives your payload
  */
  
-// state/index.js
-import { middleware } from 'dux';
+import { middleware } from 'duxter';
 
 middleware( action  => {
     console.log(action);
@@ -164,8 +161,7 @@ Subscribe/Unsubscribe
  * @param { handler } handler Your function that will be triggered when some state change.
  */
  
-// components/app/index.js
-import {subscribe, unsubscribe, getState} from 'dux';
+import {subscribe, unsubscribe, getState} from 'duxter';
   
   componentWillMount(){
      // when some state change, do something.

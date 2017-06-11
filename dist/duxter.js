@@ -13,14 +13,14 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       unsubscribe: factory.unsubscribe
     };
   } else {
-    root.Dux = factory;
+    root.Duxter = factory;
   }
 })(this, function (global) {
   /**
-   * @name Dux
+   * @name Duxter
    * @description The object that will manage all application state
    */
-  var Dux = {
+  var Duxter = {
     /**
      * @name _store
      * @description The private store
@@ -42,12 +42,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   function applyMiddleware(action) {
     return function (value) {
-      var middleware = Dux._store.middleware;
+      var middleware = Duxter._store.middleware;
       /**
          * has middleware?
          **/
       if (typeof middleware === 'function') {
-        middleware.call(null, action, Object.assign({}, Dux.mockStoreState));
+        middleware.call(null, action, Object.assign({}, Duxter.mockStoreState));
       }
 
       return action;
@@ -55,7 +55,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
 
   function updateComponent(action) {
-    Dux._store.components.forEach(function (el) {
+    Duxter._store.components.forEach(function (el) {
       if (el.component !== undefined && typeof el.handler === 'function') {
         el.handler(action);
       }
@@ -70,10 +70,10 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @param {Function} handler The function that will be called
      **/
     subscribe: function subscribe(component, handler) {
-      Dux._store.components.push({ component: component, handler: handler });
+      Duxter._store.components.push({ component: component, handler: handler });
     },
     unsubscribe: function unsubscribe(component) {
-      var components = Dux._store.components;
+      var components = Duxter._store.components;
       components.forEach(function (el, index) {
         if (el === component) {
           components.splice(index, 1);
@@ -87,7 +87,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @param {Function} callback A function that will be called
      **/
     middleware: function middleware(callback) {
-      Dux._store.middleware = callback;
+      Duxter._store.middleware = callback;
     },
     /**
      * @name dispatch
@@ -105,16 +105,16 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @param {object} data Simple Object that contain the State
      */
     setState: function setState(data) {
-      // setting the immutable initial stat return Dux.storee
-      Object.assign(Dux._store.state, data);
+      // setting the immutable initial stat return Duxter.storee
+      Object.assign(Duxter._store.state, data);
     },
     /**
      * @name getState
      * @return {Object} a copy of the state
      */
     getState: function getState() {
-      return Object.assign({}, Dux._store.state);
+      return Object.assign({}, Duxter._store.state);
     }
   };
 }(this));
-//# sourceMappingURL=dux.js.map
+//# sourceMappingURL=duxter.js.map
