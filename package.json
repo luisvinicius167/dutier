@@ -1,0 +1,38 @@
+{
+  "name": "dux",
+  "version": "0.0.1",
+  "description": "A small 1kb and simple centralized state management for Javascript applications.",
+  "main": "dist/dux.min.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "files": [
+    "dist/dux.min.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/luisvinicius167/state.git"
+  },
+  "keywords": [
+    "react",
+    "redux",
+    "flux",
+    "easy state",
+    "state container",
+    "flux pattern"
+  ],
+  "author": "Luis Vinícius <dev_luis@hotmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/luisvinicius167/state/issues"
+  },
+  "homepage": "https://github.com/luisvinicius167/state#readme",
+  "devDependencies": {
+    "babel-preset-es2015-script": "^1.1.0",
+    "grunt": "latest",
+    "grunt-babel": "^6.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "time-grunt": "^1.4.0"
+  }
+}

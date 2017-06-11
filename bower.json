@@ -1,0 +1,26 @@
+{
+  "name": "dux",
+  "description": "A small 1kb and simple centralized state management for Javascript applications.",
+  "main": "dist/dux.min.js",
+  "authors": [
+    "Luis Vinícius <dev_luis@hotmail.com>"
+  ],
+  "license": "MIT",
+  "keywords": [
+    "riotjs",
+    "redux-flux",
+    "riot.js",
+    "flux",
+    "redux",
+    "dux"
+  ],
+  "homepage": "https://github.com/luisvinicius167/state",
+  "moduleType": [],
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
