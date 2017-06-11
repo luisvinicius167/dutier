@@ -1,4 +1,4 @@
-<img width="200" src="https://raw.githubusercontent.com/luisvinicius167/Duxter/master/img/duxter-logo.png"/> 
+<img width="200" src="https://raw.githubusercontent.com/luisvinicius167/duxter/master/img/duxter-logo.png"/> 
 
 duxter is a small 1kb and simple centralized state management for Javascript applications. <br/>
 
