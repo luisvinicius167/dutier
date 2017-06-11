@@ -7,13 +7,12 @@ Dutier is a small 1kb and simple centralized state management for Javascript app
 
 
 ### Influences
-Dutier provides more control of your application state. It's envolve ideas of Redux.
+It's envolve ideas of Redux.
 
 ## Getting Started
 
 ### Install
-* Npm: ``` npm install dutier ```
-* Bower: ``` bower install dutier ```
+* Yarn: ``` yarn install dutier ```
 * CDN: ```https://unpkg.com/dutier@0.0.1```
 
 ### Features
@@ -21,28 +20,27 @@ Dutier provides more control of your application state. It's envolve ideas of Re
  * simple, small learning curve
  * immutable
  * promise based
- * inspired on Redutier
+ * inspired on Redux
  * tiny API.
 
 ### The Gist
 The application state is stored in an object tree inside a single store.
-You can receive the result of your action using ``.then`` after your ``dispatch`` call.
 
 That's it!
 
 ```javascript
-import { setState, subscribe, dispatch, getState } from 'dutier';
+import { createStore, subscribe, dispatch, getState } from 'dutier'
 
 /**
- * Set your store state in a single object.
+ * Set the initial store state in a single object.
  */
-setState({
+createStore({
  count: 1
 })
 
 /**
- * Set your store state in a single object,
- * that always receive the store state as first argument.
+ * Actions is pure functions that return
+ * a payload
  */
 function increment(value) {
   const { count } = getState()
@@ -50,31 +48,36 @@ function increment(value) {
 }
 
 /**
- * You can use subscribe() to update your UI in response to state changes.
- * `${this}` can be your UI component, where the subscribe handler will be applied.
+ * You can use subscribe() to update your UI in response to actions.
+ * `${this}` can be your UI component, where the handler will be applied
+ * when some action are called.
  */
-subscribe( this, ( {type, value } ) => {
-  console.log(`Some action was called, the action type: ${type} and the action value: ${value}.`);
-})
+ componentWillMount() {
+  subscribe( this, ( {type, value } ) => {
+    this.setState({count: value})
+  })
+ }
 
 /**
- * The only way to mutate the internal state is to dispatch an action.
- * You can receive the response of your action and do something, or not.
+ * Use dispatch to return new values based on the state
+ * tree. dispatch returns a Promise with your action payload. 
+ * Your Application state is Immutable.
  */
-dispatch(increment(1)).then( {type, value} => {
-    console.log(`The value is: ${value}`);
-})// 2
-dispatch(increment(2)); // 3
-dispatch(increment(3));// 4
+dispatch(increment(1))
+ .then( {type, value} => {
+   console.log(`The value is: ${value}`) // 2
+ })
+ 
+dispatch(increment(2)) // 3
+dispatch(increment(3)) // 4
 
-console.log(getState().count) // 1
+getState().count // 1
 ```
 
 ### Simple and efficiently API.
 
 Dispatch
- * Trigger some action for do something. A Promise will be returned, that contain an Object with the <br>
- * the action payload.
+ * Trigger some action for do something with the state. A Promise will be returned, <br> that contain your action payload
 ```javascript
 /**
  * @name dispatch
@@ -84,23 +87,23 @@ Dispatch
  */
 
 // On your component
-import {dispatch} from 'dutier';
+import {dispatch} from 'dutier'
 
 // You can receive the response of your action and do something, or not.
 // If you whant, you can chaining the dispatch Promises.
 dispatch(increment(1))
   .then( { type, value } => {
-  console.log(`Some action was called, the action type: ${type} and the action value: ${value}.`);
-  });
+    console.log(`Some action was called, the action type: ${type} and the action value: ${value}.`);
+  })
 ```
 
 Actions
- * Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using store.dispatch().
+ * Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using dispatch().
 
 
 
-createStore
- * Set the application Store state
+Store State
+ * Set the initial Application store state
 ```javascript
 /**
  * @name createStore
@@ -108,9 +111,9 @@ createStore
  * @param {object} state Your application state data
  */
  
-import {createStore} from 'dutier';
+import {createStore} from 'dutier'
 
-createStore( { count: 1 } );
+createStore( { count: 1 } )
 ```
 
 Getting the Store State
@@ -121,55 +124,57 @@ Getting the Store State
  * @description Get the state value
  */
  
-import {getState} from 'dutier';
+import {getState} from 'dutier'
 
-getState(); // returns a copy of your store state
+getState() // returns a copy of your initial store state { count: 1 }
 ```
 
 Middleware
- * Set a middleware function, that will be triggered after the action calls.
+ * Set a middleware function that will be triggered after the action calls and
+ * before the subscribe method.
 ```javascript
 /**
  * @name middleware
- * @description Get the state value
  * @param {Function} callback The function that will be triggered when
- * you use the dispatch method. Receives your payload
+ * you use the dispatch method. Receives your action payload.
  */
  
-import { middleware } from 'dutier';
+import { middleware } from 'dutier'
 
 middleware( action  => {
-    console.log(action);
+    console.log(action)
 })
 
 ```
 
 
 Subscribe/Unsubscribe
- * Subscribe some UI Component for trigger the handler function when some action are trigger. 
- * Unsubscribe when you don't wnat to trigger the handler function.
+ * Subscribe your UI to interact with actions response
+ * Unsubscribe when unmounted
 ```javascript
 /**
  * @name subscribe
- * @description Subscribe some UI Component for trigger the handler function when some action calls.
- * @param { object } BindComponent The UI element that the handler function will be applied.
- * @param { handler } handler Your function that will be triggered when some state change.
+ * @description Interact your UI with your actions response
+ * @param { Component } BindComponent The UI element that the handler function will be applied.
+ * @param { handler } handler Your function that will be triggered when call actions.
  */
  
-import {subscribe, unsubscribe, getState} from 'dutier';
+import {subscribe, unsubscribe, getState} from 'dutier'
   
   componentWillMount(){
      // when some state change, do something.
-     subscribe(this, ({value}) => {
-       this.setState({count: value})
-     });
+     subscribe(this, ( {value} ) => {
+       this.setState( { count: value } )
+     })
   }
   
-    componentWillUnmount(){
-      // remove this component for observe the changes on the state
-      unsubscribe(this)
-    }
+  componentWillUnmount(){
+    unsubscribe(this)
+  }
 ```
+
+That's all folks!
+
 
 #### License
 MIT License.
