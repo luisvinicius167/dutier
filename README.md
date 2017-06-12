@@ -40,7 +40,7 @@ createStore( { count: 1 } )
 /**
  * Actions are pure functions that return a payload
  */
-function increment( { count }, value ) {
+function increment( value ) {
   return { type: 'INCREMENT', value }
 }
 
@@ -51,8 +51,12 @@ function increment( { count }, value ) {
  * the initial store state as first argument
  */
 function reducer( initialState, { type, value } ) {
-  if (type === 'INCREMENT') return { count: initialState.count + value }
-  return initialState
+  switch (type) {
+    case 'INCREMENT':
+      return Object.assign( {}, initialState, { count: initialState.count + value })
+    default:
+      return initialState  
+  }
 }
     
 /**
