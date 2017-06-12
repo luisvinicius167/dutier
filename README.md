@@ -116,12 +116,12 @@ Store State
  * @name createStore
  * @description Set your initial Application store state
  * @param { Object } state Your application state data
- * @param { Function } Your store reducers
+ * @param { Function } ( Optional ) reducers Your store reducers
  */
  
 import { createStore } from 'dutier'
 
-createStore( { count: 1 }, ...reducers )
+createStore( { count: 1 }, [ ...reducers] )
 ```
 
 Getting the initial store state
