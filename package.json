@@ -1,6 +1,6 @@
 {
   "name": "dutier",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Dutier is a small (1kb) and simple centralized state management solution for Javascript applications. ",
   "main": "dist/dutier.min.js",
   "scripts": {

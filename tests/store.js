@@ -1,11 +1,3 @@
-Dux.setState({
-  count: 1
-});
+const {createStore} = Dutier
 
-
-Dux.middleware( ( {type, value} ) => {
-  switch (type) {
-    case 'increment':
-      console.log('É increment e o value é:', value)
-  }
-})
+createStore({count:1})

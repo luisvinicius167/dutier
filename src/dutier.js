@@ -7,7 +7,7 @@
       getState: factory.getState,
       createStore: factory.createStore,
       subscribe: factory.subscribe,
-      middleware: factory.middleware,
+      combine: factory.combine,
       unsubscribe: factory.unsubscribe
     }
   } else {
