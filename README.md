@@ -13,7 +13,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * Yarn: ``` yarn install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.0.1```
+* CDN: ```https://unpkg.com/dutier@0.0.2```
 
 ### Features
  * small 1kb minified
