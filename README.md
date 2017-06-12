@@ -34,25 +34,34 @@ import { createStore, subscribe, dispatch, getState } from 'dutier'
 /**
  * Set the initial store state in a single object.
  */
-createStore({
- count: 1
-})
+createStore( { count: 1 } )
 
 /**
  * Actions are pure functions that return a payload
  */
-function increment({ count }, value) {
-  return { type: 'INCREMENT', value: count + value }
+function increment( { count }, value ) {
+  return { type: 'INCREMENT', value }
 }
 
+/**
+ * Simple Reducer
+ * As Redux, your reducer return new state values
+ * based on your initial state, but each Dutier reducer receives
+ * the initial store state as first argument
+ */
+function reducer( initialState, { type, value } ) {
+  if (type === 'INCREMENT') return { count: initialState.count + value }
+  return initialState
+}
+    
 /**
  * You can use subscribe() to update your UI in response to actions.
  * `${this}` can be your UI component, where the handler will be applied
  * when an action is called.
  */
  componentWillMount() {
-  subscribe( this, ( {type, value } ) => {
-    this.setState({count: value})
+  subscribe( this, ( { type, state } ) => {
+    this.setState({count: state.count})
   })
  }
 
@@ -61,13 +70,13 @@ function increment({ count }, value) {
  * tree. dispatch returns a Promise with your action payload. 
  * Your Application state is Immutable.
  */
-dispatch(increment( getState(), 1))
- .then( {type, value} => {
-   console.log(`The value is: ${value}`) // 2
+dispatch(increment( 1 ))
+ .then( {type, state} => {
+   console.log(`The value is: ${state.count}`) // 2
  })
  
-dispatch(increment( getState(), 2)) // 3
-dispatch(increment( getState(), 3)) // 4
+dispatch(increment( 2 )) // 3
+dispatch(increment( 3 )) // 4
 
 getState().count // 1
 ```
@@ -105,16 +114,17 @@ Store State
 ```javascript
 /**
  * @name createStore
- * @description Set your application store state
- * @param {object} state Your application state data
+ * @description Set your initial Application store state
+ * @param { Object } state Your application state data
+ * @param { Function } Your store reducers
  */
  
-import {createStore} from 'dutier'
+import { createStore } from 'dutier'
 
-createStore( { count: 1 } )
+createStore( { count: 1 }, ...reducers )
 ```
 
-Getting the Store State
+Getting the initial store state
  * Get a state value from your store
 ```javascript
 /**
@@ -127,21 +137,24 @@ import {getState} from 'dutier'
 getState() // returns a copy of your initial store state { count: 1 }
 ```
 
-Middleware
- * Create a middleware function that will be triggered after the action calls and before the subscribe method.
+Combine
+ * Combine your store reducers
 ```javascript
 /**
- * @name middleware
- * @param {Function} callback The function that will be triggered when
- * you use the dispatch method. Receives your action payload.
+ * @name combine
+ * @param {Function} Your reducers functions
+ * Each reducer function receives your initial store state
+ * as first argument
  */
  
-import { middleware } from 'dutier'
+import { combine } from 'dutier'
 
-middleware( action  => {
-    console.log(action)
-})
+function reducer( initialState, { type, value } ) {
+  if (type === 'INCREMENT') return { count: initialState.count + value }
+  return initialState
+}
 
+combine( reducer, [ ...reducers ])
 ```
 
 
@@ -160,8 +173,8 @@ import {subscribe, unsubscribe, getState} from 'dutier'
   
   componentWillMount(){
      // Subscribe to changes on your store, do something with the value.
-     subscribe(this, ( {value} ) => {
-       this.setState( { count: value } )
+     subscribe(this, ( { type, state } ) => {
+       this.setState( { count: state.count } )
      })
   }
   

@@ -1,8 +1,8 @@
 {
   "name": "dutier",
-  "version": "0.0.1",
-  "description": "A small 1kb and simple state management for Javascript applications.",
-  "main": "dist/duxter.min.js",
+  "version": "0.0.2",
+  "description": "Dutier is a small (1kb) and simple centralized state management solution for Javascript applications. ",
+  "main": "dist/dutier.min.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

@@ -34,24 +34,30 @@
        * @description The Components that was subscribed
        */
       components: [],
-      middleware: {}
-    }
-  }
-
-  function applyMiddleware (action) {
-    return value => {
-      let middleware = Dutier._store.middleware
       /**
-         * has middleware?
-         **/
-      if (typeof middleware === 'function') {
-        middleware.call(null, action, Object.assign({}, Dutier.mockStoreState))
-      }
-
-      return action
+       * @name reducer
+       * @description The reducer function
+       */ 
+      reducer: {}
     }
   }
-
+  
+  // Apply the reducers function
+  function applyReducer ( action ) {
+    let ret=null
+    const reducers = Dutier._store.reducer
+    const state = Object.assign({}, Dutier._store.state)
+    Object.keys(reducers)
+      .forEach( reducer => {
+        const value = reducers[reducer].call(null, state, action)
+        if ( value !== state) { return ret = value }
+        ret = value; 
+      })
+      
+    return Object.assign({}, { type: action.type } , { state: Object.assign({}, state, ret) } )
+  }
+  
+  // update the component
   function updateComponent (action) {
     Dutier._store.components.forEach(el => {
       if (el.component !== undefined && typeof el.handler === 'function') {
@@ -104,7 +110,7 @@
     dispatch: (action) => {
       return Promise
         .resolve(action)
-        .then(applyMiddleware(action))
+        .then(applyReducer)
         .then(updateComponent)
     },
     /**
@@ -112,9 +118,19 @@
      * @description Sets the application data state
      * @param {object} data Simple Object that contain the State
      */
-    createStore: (state) => {
+    createStore: ( state, ...reducers ) => {
+      // register reducers
+      reducers.forEach( (reducer, i ) => Dutier._store.reducer[ i ] = reducer);
       // setting the immutable initial state return Dutier.store
       Object.assign(Dutier._store.state, state)
+    },
+    /**
+     * @name combine
+     * @description Combine the reducers
+     */
+    combine: ( ...reducers ) => {
+      const len =  Object.keys(Dutier._store.reducer).length
+      reducers.forEach( reducer => Dutier._store.reducer[len + 1] = reducer)
     },
     /**
      * @name getState
