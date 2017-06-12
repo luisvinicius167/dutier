@@ -1,13 +1,13 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small 1kb and simple centralized state management for Javascript applications. <br/>
+Dutier is a small (1kb) and simple centralized state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-0.0.1-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-0.0.1-ff69b4.svg)](https://unpkg.com/dutier@0.0.1)
 
 
 ### Influences
-It's envolve ideas of Redux.
+It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ## Getting Started
 
@@ -20,7 +20,7 @@ It's envolve ideas of Redux.
  * simple, small learning curve
  * immutable
  * promise based
- * inspired on Redux
+ * inspired by Redux
  * tiny API.
 
 ### The Gist
@@ -39,8 +39,7 @@ createStore({
 })
 
 /**
- * Actions is pure functions that return
- * a payload
+ * Actions are pure functions that return a payload
  */
 function increment(value) {
   const { count } = getState()
@@ -50,7 +49,7 @@ function increment(value) {
 /**
  * You can use subscribe() to update your UI in response to actions.
  * `${this}` can be your UI component, where the handler will be applied
- * when some action are called.
+ * when an action is called.
  */
  componentWillMount() {
   subscribe( this, ( {type, value } ) => {
@@ -74,10 +73,10 @@ dispatch(increment(3)) // 4
 getState().count // 1
 ```
 
-### Simple and efficiently API.
+### Simple and efficient API.
 
 Dispatch
- * Trigger some action for do something with the state. A Promise will be returned, <br> that contain your action payload
+ * Trigger an action to do something with the state. A Promise will be returned, <br> that contains your action payload
 ```javascript
 /**
  * @name dispatch
@@ -90,10 +89,10 @@ Dispatch
 import {dispatch} from 'dutier'
 
 // You can receive the response of your action and do something, or not.
-// If you whant, you can chaining the dispatch Promises.
+// If you want, you can chain the dispatch Promises.
 dispatch(increment(1))
   .then( { type, value } => {
-    console.log(`Some action was called, the action type: ${type} and the action value: ${value}.`);
+    console.log(`An action was called, the action type: ${type} and the action value: ${value}.`);
   })
 ```
 
@@ -107,7 +106,7 @@ Store State
 ```javascript
 /**
  * @name createStore
- * @description Set you application store state
+ * @description Set your application store state
  * @param {object} state Your application state data
  */
  
@@ -117,7 +116,7 @@ createStore( { count: 1 } )
 ```
 
 Getting the Store State
- * Get a state value of your store
+ * Get a state value from your store
 ```javascript
 /**
  * @name getState
@@ -130,8 +129,7 @@ getState() // returns a copy of your initial store state { count: 1 }
 ```
 
 Middleware
- * Set a middleware function that will be triggered after the action calls and
- * before the subscribe method.
+ * Create a middleware function that will be triggered after the action calls and before the subscribe method.
 ```javascript
 /**
  * @name middleware
@@ -149,20 +147,20 @@ middleware( action  => {
 
 
 Subscribe/Unsubscribe
- * Subscribe your UI to interact with actions response
- * Unsubscribe when unmounted
+ * Subscribe to your store to update your UI in response to actions.
+ * Unsubscribe when unmounted.
 ```javascript
 /**
  * @name subscribe
- * @description Interact your UI with your actions response
- * @param { Component } BindComponent The UI element that the handler function will be applied.
- * @param { handler } handler Your function that will be triggered when call actions.
+ * @description Bind your UI to changes in your store state.
+ * @param { Component } BindComponent The UI element that the handler function will be bound to.
+ * @param { handler } handler A callback function that will be triggered in response to actions.
  */
  
 import {subscribe, unsubscribe, getState} from 'dutier'
   
   componentWillMount(){
-     // when some state change, do something.
+     // Subscribe to changes on your store, do something with the value.
      subscribe(this, ( {value} ) => {
        this.setState( { count: value } )
      })
