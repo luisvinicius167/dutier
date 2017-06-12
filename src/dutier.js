@@ -73,6 +73,11 @@
         .components
         .push({component, handler})
     },
+    /**
+     * @name unsubscribe
+     * @description Unsubscribes from listening to a component
+     * @param {Component} component The Component
+     **/
     unsubscribe: (component) => {
       let components = Dutier._store.components
       components.forEach((el, index) => {
@@ -95,7 +100,6 @@
      * @description Dispatch an action to change
      * the store state
      * @param { string } action The action name
-     * @param { any } args Arguments sended to the action
      */
     dispatch: (action) => {
       return Promise
@@ -104,7 +108,7 @@
         .then(updateComponent)
     },
     /**
-     * @name setState
+     * @name createStore
      * @description Sets the application data state
      * @param {object} data Simple Object that contain the State
      */
