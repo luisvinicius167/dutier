@@ -103,7 +103,7 @@ import {dispatch} from 'dutier'
 
 // You can receive the response of your action and do something, or not.
 // If you want, you can chain the dispatch Promises.
-dispatch( increment(getState(), 1) )
+dispatch( increment(1) )
   .then( { type, value } => {
     console.log(`An action was called, the action type: ${type} and the action value: ${value}.`);
   })
@@ -111,7 +111,12 @@ dispatch( increment(getState(), 1) )
 
 Actions
  * Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using dispatch().
-
+ 
+```javascript
+function increment( value ) {
+  return { type: 'INCREMENT', value }
+}
+```
 
 
 Store State
@@ -155,8 +160,12 @@ Combine
 import { combine } from 'dutier'
 
 function reducer( initialState, { type, value } ) {
-  if (type === 'INCREMENT') return { count: initialState.count + value }
-  return initialState
+  switch (type) {
+    case 'INCREMENT':
+      return Object.assign( {}, initialState, { count: initialState.count + value })
+    default:
+      return initialState  
+  }
 }
 
 combine( reducer [, ...reducers ])
