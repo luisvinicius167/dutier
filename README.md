@@ -41,8 +41,7 @@ createStore({
 /**
  * Actions are pure functions that return a payload
  */
-function increment(value) {
-  const { count } = getState()
+function increment({ count }, value) {
   return { type: 'INCREMENT', value: count + value }
 }
 
@@ -62,13 +61,13 @@ function increment(value) {
  * tree. dispatch returns a Promise with your action payload. 
  * Your Application state is Immutable.
  */
-dispatch(increment(1))
+dispatch(increment( getState(), 1))
  .then( {type, value} => {
    console.log(`The value is: ${value}`) // 2
  })
  
-dispatch(increment(2)) // 3
-dispatch(increment(3)) // 4
+dispatch(increment( getState(), 2)) // 3
+dispatch(increment( getState(), 3)) // 4
 
 getState().count // 1
 ```
@@ -90,7 +89,7 @@ import {dispatch} from 'dutier'
 
 // You can receive the response of your action and do something, or not.
 // If you want, you can chain the dispatch Promises.
-dispatch(increment(1))
+dispatch( increment(getState(), 1) )
   .then( { type, value } => {
     console.log(`An action was called, the action type: ${type} and the action value: ${value}.`);
   })
