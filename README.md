@@ -13,11 +13,12 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * Yarn: ``` yarn install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.0.2```
+* CDN: ```https://unpkg.com/dutier@0.0.3```
 
 ### Features
  * small 1kb minified
  * simple, small learning curve
+ * no dependencies
  * immutable
  * promise based
  * inspired by Redux
