@@ -9,8 +9,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
       getState: factory.getState,
       createStore: factory.createStore,
       subscribe: factory.subscribe,
-      combine: factory.combine,
-      unsubscribe: factory.unsubscribe
+      combine: factory.combine
     };
   } else {
     root.Dutier = factory;
@@ -28,23 +27,35 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     _store: {
       /**
        * @name state
-       * @description The Store application state
+       * @description The initial store application state
        */
       state: {},
       /**
-       * @name state
-       * @description The Components that was subscribed
+       * @name handlers
+       * @description The subscribe handlers function
        */
-      components: [],
+      handlers: [],
       /**
        * @name reducer
        * @description The reducer function
        */
       reducer: {}
     }
-
-    // Apply the reducers function
-  };function applyReducer(action) {
+    /**
+     * @name unsubscribe
+     * @description Unsubscribes from listening to a component
+     * @param {Component} component The Component
+     **/
+  };function unsubscribe(handler) {
+    var components = Dutier._store.handlers;
+    components.forEach(function (fn, index) {
+      if (fn === handler) {
+        components.splice(index, 1);
+      }
+    });
+  }
+  // Apply the reducers function
+  function applyReducer(action) {
     var ret = null;
     var reducers = Dutier._store.reducer;
     var state = Object.assign({}, Dutier._store.state);
@@ -61,9 +72,9 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
 
   // update the component
   function updateComponent(action) {
-    Dutier._store.components.forEach(function (el) {
-      if (el.component !== undefined && typeof el.handler === 'function') {
-        el.handler(action);
+    Dutier._store.handlers.forEach(function (handler) {
+      if (handler !== undefined && typeof handler === 'function') {
+        handler(action);
       }
     });
     return action;
@@ -75,30 +86,11 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @param {Component} component The Component
      * @param {Function} handler The function that will be called
      **/
-    subscribe: function subscribe(component, handler) {
-      Dutier._store.components.push({ component: component, handler: handler });
-    },
-    /**
-     * @name unsubscribe
-     * @description Unsubscribes from listening to a component
-     * @param {Component} component The Component
-     **/
-    unsubscribe: function unsubscribe(component) {
-      var components = Dutier._store.components;
-      components.forEach(function (el, index) {
-        if (el === component) {
-          components.splice(index, 1);
-        }
-      });
-    },
-    /**
-     * @name middleware
-     * @description The middleware function that will be triggered
-     * every time when an action called.
-     * @param {Function} callback A function that will be called
-     **/
-    middleware: function middleware(callback) {
-      Dutier._store.middleware = callback;
+    subscribe: function subscribe(handler) {
+      Dutier._store.handlers.push(handler);
+      return function () {
+        unsubscribe(handler);
+      };
     },
     /**
      * @name dispatch

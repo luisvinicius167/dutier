@@ -8,7 +8,6 @@
       createStore: factory.createStore,
       subscribe: factory.subscribe,
       combine: factory.combine,
-      unsubscribe: factory.unsubscribe
     }
   } else {
     root.Dutier = factory
@@ -26,14 +25,14 @@
     _store: {
       /**
        * @name state
-       * @description The Store application state
+       * @description The initial store application state
        */
       state: {},
       /**
-       * @name state
-       * @description The Components that was subscribed
+       * @name handlers
+       * @description The subscribe handlers function
        */
-      components: [],
+      handlers: [],
       /**
        * @name reducer
        * @description The reducer function
@@ -41,7 +40,19 @@
       reducer: {}
     }
   }
-  
+  /**
+   * @name unsubscribe
+   * @description Unsubscribes from listening to a component
+   * @param {Component} component The Component
+   **/
+  function unsubscribe(handler){
+    const components = Dutier._store.handlers
+    components.forEach( ( fn, index ) => {
+      if ( fn === handler) {
+        components.splice(index, 1)
+      }
+    })
+  }
   // Apply the reducers function
   function applyReducer ( action ) {
     let ret=null
@@ -59,9 +70,9 @@
   
   // update the component
   function updateComponent (action) {
-    Dutier._store.components.forEach(el => {
-      if (el.component !== undefined && typeof el.handler === 'function') {
-        el.handler(action)
+    Dutier._store.handlers.forEach( handler => {
+      if (handler !== undefined && typeof handler === 'function') {
+        handler(action)
       }
     })
     return action
@@ -73,33 +84,13 @@
      * @param {Component} component The Component
      * @param {Function} handler The function that will be called
      **/
-    subscribe: (component, handler) => {
-      Dutier
-        ._store
-        .components
-        .push({component, handler})
-    },
-    /**
-     * @name unsubscribe
-     * @description Unsubscribes from listening to a component
-     * @param {Component} component The Component
-     **/
-    unsubscribe: (component) => {
-      let components = Dutier._store.components
-      components.forEach((el, index) => {
-        if (el === component) {
-          components.splice(index, 1)
-        }
-      })
-    },
-    /**
-     * @name middleware
-     * @description The middleware function that will be triggered
-     * every time when an action called.
-     * @param {Function} callback A function that will be called
-     **/
-    middleware: callback => {
-      Dutier._store.middleware = callback
+    subscribe: ( handler ) => {
+      Dutier._store
+        .handlers
+        .push(handler)
+      return () => {
+        unsubscribe(handler)
+      }
     },
     /**
      * @name dispatch

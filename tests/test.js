@@ -1,5 +1,5 @@
 expect = chai.expect
-const { createStore, combine, getState, dispatch } = Dutier
+const { combine, getState, dispatch } = Dutier
 
 describe('Initial store state', function () {
   describe('#getState().count ', function () {

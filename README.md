@@ -1,9 +1,9 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb) and simple functional state management solution for Javascript applications. <br/>
+Dutier is a small (1kb) and simple functional state solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.0.3-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.0.3-ff69b4.svg)](https://unpkg.com/dutier@0.0.3)
+[![npm package](https://img.shields.io/badge/npm-0.1.0-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.0.3-ff69b4.svg)](https://unpkg.com/dutier@0.1.0)
 
 
 ### Influences
@@ -13,7 +13,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * Yarn: ``` yarn install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.0.3```
+* CDN: ```https://unpkg.com/dutier@0.1.0```
 
 ### Features
  * small 1kb minified
@@ -28,7 +28,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 ### Functional state management?
 > Functional programming (often abbreviated FP) is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects.
 
-With `dutier` your initial store state is immutable. `Actions` ( pure functions ) just returns a payload information about how to work with the initial state, and the `dispatch` always return new values based on your initial state without change them.
+With `dutier` your initial store state is immutable. `Actions` ( pure functions ) just returns a payload information about how to work with the initial state, and the `dispatch` method always return new values based on your initial state without change them.
 
 ```javascript
 import { createStore, getState, dispatch } from 'dutier'
@@ -109,10 +109,11 @@ function reducer( initialState, { type, value } ) {
  * when an action is called.
  */
  componentWillMount() {
-  subscribe( this, ( { type, state } ) => {
+  this.unsubscribe = subscribe( { type, state } ) => {
     this.setState({count: state.count})
   })
  }
+
 
 /**
  * Use dispatch to return new values based on the state
@@ -134,6 +135,7 @@ getState().count // 1
 
 Dispatch
  * Trigger an action to do something with the state. A Promise will be returned, <br> that contains your action payload
+
 ```javascript
 /**
  * @name dispatch
@@ -216,7 +218,7 @@ combine( reducer [, ...reducers ])
 ```
 
 
-Subscribe/Unsubscribe
+Subscribe
  * Subscribe to your store to update your UI in response to actions.
  * Unsubscribe when unmounted.
 ```javascript
@@ -227,17 +229,17 @@ Subscribe/Unsubscribe
  * @param { handler } handler A callback function that will be triggered in response to actions.
  */
  
-import {subscribe, unsubscribe, getState} from 'dutier'
+import {subscribe, getState} from 'dutier'
   
   componentWillMount(){
      // Subscribe to changes on your store, do something with the value.
-     subscribe(this, ( { type, state } ) => {
+     this.unsubscribe = subscribe(( { type, state } ) => {
        this.setState( { count: state.count } )
      })
   }
   
-  componentWillUnmount(){
-    unsubscribe(this)
+  componentWillUnmount() {
+    this.unsubscribe()
   }
 ```
 
