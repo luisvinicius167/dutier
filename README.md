@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb) and simple functional state solution for Javascript applications. <br/>
+Dutier is a small (1kb) and simple functional component state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-0.1.0-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-0.0.3-ff69b4.svg)](https://unpkg.com/dutier@0.1.0)
@@ -25,6 +25,9 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * inspired by Redux
  * tiny API.
  
+ ### React Example:
+[![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Nx2xgWQ5m)
+
 ### Functional state management?
 > Functional programming (often abbreviated FP) is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects.
 
@@ -67,9 +70,8 @@ dispatch( increment(1) )
 ```
 
 
-
 ### The Gist
-The application state is stored in an object tree inside a single store. Your store state is immutable, actions will only dispatch information about how work with the initial state and then return new values without cghange the state.
+The application state is stored in an object tree inside a single store. Your store state is immutable, actions will only dispatch information about how work with the initial state and then return new values without change the state.
 
 That's it!
 
@@ -97,7 +99,7 @@ function increment( value ) {
 function reducer( initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return Object.assign( {}, initialState, { count: initialState.count + value })
+      return { count: value })
     default:
       return initialState  
   }
@@ -108,7 +110,7 @@ function reducer( initialState, { type, value } ) {
  */
  componentWillMount() {
   this.unsubscribe = subscribe( { type, state } ) => {
-    this.setState({count: state.count})
+    console.log('Reducer new state value ', state, 'Initial store state: ', getState())
   })
  }
 
