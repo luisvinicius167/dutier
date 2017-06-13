@@ -59,11 +59,11 @@ function reducer( initialState, { type, value } ) {
  
  // fist dispatch
 dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, getState() ) // { count: 2 }, { count: 1 }
+  .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 }, { count: 1 }
 
 // second dispatch
 dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, getState() ) // { count: 2 }, { count: 1 } 
+  .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 }, { count: 1 } 
 ```
 
 
