@@ -26,7 +26,9 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * tiny API.
  
 ### Functional state management?
-With `dutier` your actions always return new values based on your initial state without change them.
+> Functional programming (often abbreviated FP) is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects.
+
+With `dutier` your initial store state is immutable. `Actions` ( pure functions ) just returns a payload information about how to work with the initial state, and the `dispatch` always return new values based on your initial state without change them.
 
 ```javascript
 import { createStore, getState, dispatch } from 'dutier'
