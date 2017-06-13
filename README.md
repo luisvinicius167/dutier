@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb) and simple centralized state management solution for Javascript applications. <br/>
+Dutier is a small (1kb) and simple functional state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-0.0.3-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-0.0.3-ff69b4.svg)](https://unpkg.com/dutier@0.0.3)
@@ -18,11 +18,53 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 ### Features
  * small 1kb minified
  * simple, small learning curve
+ * functional
  * no dependencies
  * immutable store
  * promise based
  * inspired by Redux
  * tiny API.
+ 
+### Functional state management?
+With `dutier` your actions always return new values based on your initial state without change them.
+
+```javascript
+import { createStore, getState, dispatch } from 'dutier'
+
+// sets your initial application state
+createStore({ count: 1 })
+
+// your action
+function increment( value ) {
+  return { type: 'INCREMENT', value }
+}
+
+// your reducer function
+function reducer( initialState, { type, value } ) {
+  switch (type) {
+    case 'INCREMENT':
+      return Object.assign( {}, initialState, { count: initialState.count + value })
+    default:
+      return initialState  
+  }
+}
+
+/** 
+ * The same increment input value (1) , always return the same output value.
+ * In this case, increment(1) always return { count: 2 }, 
+ * it not return the incremented initial state itself: { count: 2 }, { count: 3 }, { count: 4 }
+ */
+ 
+ // fist dispatch
+dispatch( increment(1) )
+  .then( ({ type, state }) => console.log( state, getState() ) // { count: 2 }, { count: 1 }
+
+// second dispatch
+dispatch( increment(1) )
+  .then( ({ type, state }) => console.log( state, getState() ) // { count: 2 }, { count: 1 } 
+```
+
+
 
 ### The Gist
 The application state is stored in an object tree inside a single store. Your store state is immutable, actions will only dispatch information about how work with the initial state and then return new values without cghange the state.
