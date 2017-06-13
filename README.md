@@ -19,13 +19,13 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * small 1kb minified
  * simple, small learning curve
  * no dependencies
- * immutable
+ * immutable store
  * promise based
  * inspired by Redux
  * tiny API.
 
 ### The Gist
-The application state is stored in an object tree inside a single store.
+The application state is stored in an object tree inside a single store. Your store state is immutable, actions will only dispatch information about how work with the initial state and then return new values without cghange the state.
 
 That's it!
 
@@ -76,7 +76,7 @@ function reducer( initialState, { type, value } ) {
  * Your Application state is Immutable.
  */
 dispatch(increment( 1 ))
- .then( {type, state} => {
+ .then( ({type, state}) => {
    console.log(`The value is: ${state.count}`) // 2
  })
  
@@ -104,7 +104,7 @@ import {dispatch} from 'dutier'
 // You can receive the response of your action and do something, or not.
 // If you want, you can chain the dispatch Promises.
 dispatch( increment(1) )
-  .then( { type, value } => {
+  .then( ({ type, value }) => {
     console.log(`An action was called, the action type: ${type} and the action value: ${value}.`);
   })
 ```
@@ -120,7 +120,7 @@ function increment( value ) {
 
 
 Store State
- * Set the initial Application store state
+ * Set the initial Application store state. Your store state is immutable. 
 ```javascript
 /**
  * @name createStore
