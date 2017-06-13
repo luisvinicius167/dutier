@@ -37,7 +37,7 @@ With `dutier` your initial store state is immutable. `Actions` ( pure functions 
 import { createStore, getState, dispatch } from 'dutier'
 
 // sets your initial application state
-createStore({ count: 1 })
+createStore({ count: 1 }, reducer)
 
 // your action
 function increment( value ) {
