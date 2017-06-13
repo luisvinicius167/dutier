@@ -104,9 +104,7 @@ function reducer( initialState, { type, value } ) {
 }
     
 /**
- * You can use subscribe() to update your UI in response to actions.
- * `${this}` can be your UI component, where the handler will be applied
- * when an action is called.
+ * You can use subscribe() to update your UI in response to actions
  */
  componentWillMount() {
   this.unsubscribe = subscribe( { type, state } ) => {
