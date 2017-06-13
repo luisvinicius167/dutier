@@ -28,7 +28,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  ### React Example:
 [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Nx2xgWQ5m)
 
-### Functional state management?
+### Functional component state management?
 > Functional programming (often abbreviated FP) is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects.
 
 With `dutier` your initial store state is immutable. `Actions` ( pure functions ) just returns a payload information about how to work with the initial state, and the `dispatch` method always return new values based on your initial state without change them.
