@@ -43,9 +43,9 @@ function increment( value ) {
 function reducer( state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return Object.assign({}, state, { count: initialState.count + value })
+      return Object.assign({}, state, { count: state.count + value })
     default:
-      return initialState  
+      return state  
   }
 }
  
