@@ -219,7 +219,7 @@ import {subscribe, getState} from 'dutier'
   componentWillMount(){
      // Subscribe to changes on your store, do something with the value.
      this.unsubscribe = subscribe(( { type, state } ) => {
-       this.setState( { count: state.count } )
+       this.setState( { count: getState().count } )
      })
   }
   
