@@ -1,9 +1,9 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb) and simple functional component state management solution for Javascript applications. <br/>
+Dutier is a small (1kb) and simple state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.1.0-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.0.3-ff69b4.svg)](https://unpkg.com/dutier@0.1.0)
+[![npm package](https://img.shields.io/badge/npm-0.2.0-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.2.0-ff69b4.svg)](https://unpkg.com/dutier@0.2.0)
 
 
 ### Influences
@@ -13,14 +13,12 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * Yarn: ``` yarn install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.1.0```
+* CDN: ```https://unpkg.com/dutier@0.2.0```
 
 ### Features
  * small 1kb minified
  * simple, small learning curve
- * functional
  * no dependencies
- * immutable store
  * promise based
  * inspired by Redux
  * tiny API.
@@ -28,10 +26,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  ### React Example:
 [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/Nx2xgWQ5m)
 
-### Functional component state management?
-> Functional programming (often abbreviated FP) is the process of building software by composing pure functions, avoiding shared state, mutable data, and side-effects.
-
-With `dutier` your initial store state is immutable. `Actions` ( pure functions ) just returns a payload information about how to work with the initial state, and the `dispatch` method always return new values based on your initial state without change them.
+With `dutier` your `Actions` are pure functions that just returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your initial state without change them.
 
 ```javascript
 import { createStore, getState, dispatch } from 'dutier'
@@ -45,33 +40,24 @@ function increment( value ) {
 }
 
 // your reducer function
-function reducer( initialState, { type, value } ) {
+function reducer( state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return Object.assign( {}, initialState, { count: initialState.count + value })
+      return Object.assign({}, state, { count: initialState.count + value })
     default:
       return initialState  
   }
 }
-
-/** 
- * The same increment input value (1) , always return the same output value.
- * In this case, increment(1) always return { count: 2 }, 
- * it not return the incremented initial state itself: { count: 2 }, { count: 3 }, { count: 4 }
- */
  
- // fist dispatch
+ // dispatch actions to change the state
 dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 }, { count: 1 }
-
-// second dispatch
-dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 }, { count: 1 } 
+  .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 },{ count: 2 }
+ 
 ```
 
 
 ### The Gist
-The application state is stored in an object tree inside a single store. Your store state is immutable, actions will only dispatch information about how work with the initial state and then return new values without change the state.
+The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
 
 That's it!
 
@@ -92,16 +78,15 @@ function increment( value ) {
 
 /**
  * Simple Reducer
- * As Redux, your reducer return new state values
- * based on your initial state, but each Dutier reducer receives
- * the initial store state as first argument
+ * As Redux, the only way to change the state tree is to emit an action, an 
+ * object describing what happened.
  */
-function reducer( initialState, { type, value } ) {
+function reducer( state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return { count: value })
+      return { count: value }
     default:
-      return initialState  
+      return state  
   }
 }
     
@@ -110,25 +95,25 @@ function reducer( initialState, { type, value } ) {
  */
  componentWillMount() {
   this.unsubscribe = subscribe( { type, state } ) => {
-    console.log('Reducer new state value ', state, 'Initial store state: ', getState())
+    console.log('Reducer new state value ', state, 'Store state: ', getState())
   })
  }
 
 
 /**
  * Use dispatch to return new values based on the state
- * tree. dispatch returns a Promise with your action payload. 
- * Your Application state is Immutable.
+ * tree. dispatch returns a Promise with your action type and
+ * the actual state
  */
 dispatch(increment( 1 ))
- .then( ({type, state}) => {
-   console.log(`The value is: ${state.count}`) // 2
+ .then( ({ type, state }) => {
+   console.log(`The value is: ${getState().count}`) // 2
  })
  
-dispatch(increment( 2 )) // 3
-dispatch(increment( 3 )) // 4
+dispatch(increment( 1 )) // 3
+dispatch(increment( 1 )) // 4
 
-getState().count // 1
+getState().count // 4
 ```
 
 ### Simple and efficient API.
@@ -150,8 +135,8 @@ import {dispatch} from 'dutier'
 // You can receive the response of your action and do something, or not.
 // If you want, you can chain the dispatch Promises.
 dispatch( increment(1) )
-  .then( ({ type, value }) => {
-    console.log(`An action was called, the action type: ${type} and the action value: ${value}.`);
+  .then( ({ type, state }) => {
+    console.log(type, state)
   })
 ```
 
@@ -166,7 +151,7 @@ function increment( value ) {
 
 
 Store State
- * Set the initial Application store state. Your store state is immutable. 
+ * Set the initial Application store state. 
 ```javascript
 /**
  * @name createStore
@@ -180,7 +165,7 @@ import { createStore } from 'dutier'
 createStore( { count: 1 [, ...reducers] )
 ```
 
-Getting the initial store state
+Getting the store state
  * Get a state value from your store
 ```javascript
 /**
@@ -190,7 +175,7 @@ Getting the initial store state
  
 import {getState} from 'dutier'
 
-getState() // returns a copy of your initial store state { count: 1 }
+getState() // returns a copy of your store state { count: 1 }
 ```
 
 Combine
@@ -199,13 +184,13 @@ Combine
 /**
  * @name combine
  * @param {Function} Your reducers functions
- * Each reducer function receives your initial store state
+ * Each reducer function receives your actual store state
  * as first argument
  */
  
 import { combine } from 'dutier'
 
-function reducer( initialState, { type, value } ) {
+function reducer( state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
       return Object.assign( {}, initialState, { count: initialState.count + value })

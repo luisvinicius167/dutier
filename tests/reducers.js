@@ -1,6 +1,8 @@
-function reducer( initialState, { type, value } ) {
-  if (type === 'INCREMENT') return { count: initialState.count + value }
-  return initialState
+function reducer( state, { type, value } ) {
+  if (type === 'INCREMENT') { 
+    return { count: state.count + value }
+  }
+  return state
 }
 
 Dutier.combine(reducer)

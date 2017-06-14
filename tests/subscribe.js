@@ -1,5 +1,5 @@
 const {subscribe} = Dutier
 
-const unsubscribe = subscribe( ( { type, state }) => {
-  console.log('UNSUBSCRIBE', this, state, Dutier.getState())
+const unsubscribe = subscribe( ( { type, state } ) => {
+  console.log('SUBSCRIBE',  type, state)
 })

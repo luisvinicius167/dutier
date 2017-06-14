@@ -29,6 +29,12 @@
        */
       state: {},
       /**
+       * @name _state
+       * @description The new application state
+       * based on reducers values
+       */
+      _state: {},
+      /**
        * @name handlers
        * @description The subscribe handlers function
        */
@@ -55,27 +61,31 @@
   }
   // Apply the reducers function
   function applyReducer ( action ) {
-    let ret=null
     const reducers = Dutier._store.reducer
-    const state = Object.assign({}, Dutier._store.state)
+    const initialState = Object.assign({}, Dutier._store.state)
+    const actualState = Object.assign(initialState, Dutier._store._state)
+    
     Object.keys(reducers)
       .forEach( reducer => {
-        const value = reducers[reducer].call(null, state, action)
-        if ( value !== state) { return ret = value }
-        ret = value; 
+        const value = reducers[reducer].call(null, actualState, action)
+        if ( JSON.stringify(value) !== JSON.stringify(actualState) ) {
+          Object.assign(Dutier._store._state, initialState, value)
+          return
+        }
       })
       
-    return Object.assign({}, { type: action.type } , { state: Object.assign({}, state, ret) } )
+    return Object.assign({}, { type: action.type } , { state: Object.assign({}, Dutier._store._state) })
   }
   
   // update the component
-  function updateComponent (action) {
+  function updateComponent ( { type } ) {
+    const state = Object.assign({}, Dutier._store._state)
     Dutier._store.handlers.forEach( handler => {
       if (handler !== undefined && typeof handler === 'function') {
-        handler(action)
+        handler({ type, state })
       }
     })
-    return action
+    return { type, state }
   }
   return {
     /**
@@ -128,7 +138,7 @@
      * @return {Object} a copy of the state
      */
     getState: () => {
-      return Object.assign({}, Dutier._store.state)
+      return Object.assign({}, Dutier._store.state, Dutier._store._state)
     }
   }
 }(this)))

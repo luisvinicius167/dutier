@@ -31,6 +31,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
        */
       state: {},
       /**
+       * @name _state
+       * @description The new application state
+       * based on reducers values
+       */
+      _state: {},
+      /**
        * @name handlers
        * @description The subscribe handlers function
        */
@@ -56,28 +62,32 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
   }
   // Apply the reducers function
   function applyReducer(action) {
-    var ret = null;
     var reducers = Dutier._store.reducer;
-    var state = Object.assign({}, Dutier._store.state);
+    var initialState = Object.assign({}, Dutier._store.state);
+    var actualState = Object.assign(initialState, Dutier._store._state);
+
     Object.keys(reducers).forEach(function (reducer) {
-      var value = reducers[reducer].call(null, state, action);
-      if (value !== state) {
-        return ret = value;
+      var value = reducers[reducer].call(null, actualState, action);
+      if (JSON.stringify(value) !== JSON.stringify(actualState)) {
+        Object.assign(Dutier._store._state, initialState, value);
+        return;
       }
-      ret = value;
     });
 
-    return Object.assign({}, { type: action.type }, { state: Object.assign({}, state, ret) });
+    return Object.assign({}, { type: action.type }, { state: Object.assign({}, Dutier._store._state) });
   }
 
   // update the component
-  function updateComponent(action) {
+  function updateComponent(_ref) {
+    var type = _ref.type;
+
+    var state = Object.assign({}, Dutier._store._state);
     Dutier._store.handlers.forEach(function (handler) {
       if (handler !== undefined && typeof handler === 'function') {
-        handler(action);
+        handler({ type: type, state: state });
       }
     });
-    return action;
+    return { type: type, state: state };
   }
   return {
     /**
@@ -137,7 +147,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
      * @return {Object} a copy of the state
      */
     getState: function getState() {
-      return Object.assign({}, Dutier._store.state);
+      return Object.assign({}, Dutier._store.state, Dutier._store._state);
     }
   };
 }(this));
