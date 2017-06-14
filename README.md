@@ -23,8 +23,9 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * inspired by Redux
  * tiny API.
  
- ### React Example:
+ ### React Examples:
 [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1AyKXMpG)
+[![Edit lYK7OQMk6](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/lYK7OQMk6)
 
 With `dutier` your `Actions` are pure functions that just returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your initial state without change them.
 
