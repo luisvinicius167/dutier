@@ -162,7 +162,7 @@ Store State
  
 import { createStore } from 'dutier'
 
-createStore( { count: 1 [, ...reducers] )
+createStore( { count: 1 }  [, ...reducers] )
 ```
 
 Getting the store state
