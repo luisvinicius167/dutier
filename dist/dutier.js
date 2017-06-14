@@ -1,6 +1,20 @@
 var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
-;(function () {
+;(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory);
+  } else if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
+    module.exports = {
+      dispatch: factory.dispatch,
+      getState: factory.getState,
+      createStore: factory.createStore,
+      subscribe: factory.subscribe,
+      combine: factory.combine
+    };
+  } else {
+    root.Dutier = factory;
+  }
+})(this, function (global) {
   /**
    * @name _state
    * @description The actual store application state
@@ -90,7 +104,7 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     }
 
     reducers.forEach(function (reducer) {
-      return _reducers[len + 1] = reducer;
+      _reducers[len + 1] = reducer;len++;
     });
   }
   /**
@@ -116,19 +130,12 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
     return Object.assign({}, _initialState, _state);
   }
 
-  var dutier = {
+  return {
     createStore: createStore,
     combine: combine,
     subscribe: subscribe,
     getState: getState,
     dispatch: dispatch
   };
-  if ((typeof exports === 'undefined' ? 'undefined' : _typeof(exports)) === 'object') {
-    module.exports = dutier;
-  } else if (typeof define === 'function' && define.amd) {
-    define([], dutier);
-  } else {
-    window.Dutier = dutier;
-  }
-})();
+}(this));
 //# sourceMappingURL=dutier.js.map

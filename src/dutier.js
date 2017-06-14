@@ -1,4 +1,18 @@
-;(function() {
+;(function (root, factory) {
+  if (typeof define === 'function' && define.amd) {
+    define([], factory)
+  } else if (typeof exports === 'object') {
+    module.exports = {
+      dispatch: factory.dispatch,
+      getState: factory.getState,
+      createStore: factory.createStore,
+      subscribe: factory.subscribe,
+      combine: factory.combine,
+    }
+  } else {
+    root.Dutier = factory
+  }
+}(this, function(global) {
  /**
   * @name _state
   * @description The actual store application state
@@ -82,8 +96,8 @@
    * @description Combine the reducers
    */  
   function combine( ...reducers ) {
-    const len =  Object.keys(_reducers).length
-    reducers.forEach( reducer => _reducers[len + 1] = reducer)
+    let len =  Object.keys(_reducers).length
+    reducers.forEach( reducer => { _reducers[len + 1] = reducer; len++ })
   }
   /**
   * @name createStore
@@ -102,20 +116,11 @@
     return Object.assign({}, _initialState, _state)
   }
   
-  const dutier = {
+  return {
     createStore,
     combine,
     subscribe,
     getState,
     dispatch
   }
-  if (typeof exports === 'object') {
-    module.exports = dutier;
-  }
-  else if (typeof define === 'function' && define.amd) {
-    define([], dutier)
-  }
-  else {
-    window.Dutier = dutier;
-  }
-}())
+}(this)))
