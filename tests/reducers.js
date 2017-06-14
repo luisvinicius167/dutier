@@ -5,4 +5,11 @@ function reducer( state, { type, value } ) {
   return state
 }
 
-Dutier.combine(reducer)
+function reducer2( state, { type, value } ) {
+  if (type === 'INCREMEN') {
+    return { count: state.count - value }
+  }
+  return state
+}
+
+Dutier.combine(reducer, reducer2)

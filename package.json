@@ -1,13 +1,21 @@
 {
   "name": "dutier",
-  "version": "0.2.1",
+  "version": "0.3.0",
   "description": "Dutier is a small (1kb) and simple functional component state management solution for Javascript applications.",
   "main": "dist/dutier.min.js",
+  "module": "src/index.js",
   "scripts": {
+    "prebuild": "npm run clean",
+    "build": "npm run rollup & npm run rollup:production",
+    "build:watch": "npm run rollup -- --watch",
+    "clean": "del-cli \"dist/**/*\"",
+    "rollup": "rollup --config",
+    "rollup:production": "cross-env NODE_ENV=production npm run rollup",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "dist/dutier.min.js"
+    "dist",
+    "src"
   ],
   "repository": {
     "type": "git",
@@ -28,11 +36,12 @@
   },
   "homepage": "https://github.com/luisvinicius167/dutier#readme",
   "devDependencies": {
-    "babel-preset-es2015-script": "^1.1.0",
-    "grunt": "latest",
-    "grunt-babel": "^6.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
-    "grunt-contrib-watch": "^1.0.0",
-    "time-grunt": "^1.4.0"
+  "babel-preset-env": "~1.4.0",
+    "cross-env": "~5.0.0",
+    "del-cli": "~1.0.0",
+    "rollup": "~0.41.6",
+    "rollup-plugin-babel": "~2.7.1",
+    "rollup-plugin-uglify": "~2.0.0",
+    "rollup-watch": "~3.2.2"
   }
 }

@@ -11,7 +11,7 @@ describe('Initial store state', function () {
   describe('#IncrementCount', function () {
     it.only('The state count should be 2', function () {
       dispatch( increment(1) ).then(function ({ type, state }) {
-        expect(state.count).to.equal(3)
+        expect(state.count).to.equal(2)
       })
     })
   })
