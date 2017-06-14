@@ -193,9 +193,9 @@ import { combine } from 'dutier'
 function reducer( state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return Object.assign( {}, initialState, { count: initialState.count + value })
+      return Object.assign( {}, state, { count: state.count + value })
     default:
-      return initialState  
+      return state  
   }
 }
 
