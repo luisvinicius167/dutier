@@ -19,6 +19,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * small 1kb minified
  * simple, small learning curve
  * no dependencies
+ * async by default
  * promise based
  * inspired by Redux
  * tiny API.
