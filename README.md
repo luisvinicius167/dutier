@@ -53,7 +53,7 @@ function reducer( state, { type, value } ) {
  * Async actions
  * Use dispatch to return new values based on the state
  * tree. dispatch is async and returns a Promise with your action type and
- * the actual state
+ * the new state value
  */
 dispatch( increment(1) )
   .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 },{ count: 2 }
@@ -108,7 +108,7 @@ function reducer( state, { type, value } ) {
 /**
  * Use dispatch to return new values based on the state
  * tree. dispatch is async and returns a Promise with your action type and
- * the actual state
+ * the new state value
  */
 dispatch(increment( 1 ))
  .then( ({ type, state }) => {
