@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb) and simple state management solution for Javascript applications. <br/>
+Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-0.3.0-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-0.3.0-ff69b4.svg)](https://unpkg.com/dutier@0.3.0)
@@ -27,7 +27,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  ### React Examples:
 [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1AyKXMpG)
 
-With `Dutier` your `Actions` are pure functions that just returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your initial state.
+With `Dutier` your `actions` are async by default and just pure functions that returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
 
 ```javascript
 import { createStore, getState, dispatch } from 'dutier'
@@ -49,8 +49,12 @@ function reducer( state, { type, value } ) {
       return state  
   }
 }
- 
- // dispatch actions to change the state
+ /**
+ * Async actions
+ * Use dispatch to return new values based on the state
+ * tree. dispatch is async and returns a Promise with your action type and
+ * the actual state
+ */
 dispatch( increment(1) )
   .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 },{ count: 2 }
  
@@ -103,7 +107,7 @@ function reducer( state, { type, value } ) {
 
 /**
  * Use dispatch to return new values based on the state
- * tree. dispatch returns a Promise with your action type and
+ * tree. dispatch is async and returns a Promise with your action type and
  * the actual state
  */
 dispatch(increment( 1 ))
@@ -120,7 +124,8 @@ getState().count // 4
 ### Simple and efficient API.
 
 Dispatch
- * Trigger an action to do something with the state. A Promise will be returned, <br> that contains your action payload
+ * Trigger an action to do something with the state. It's async by default and always return a promise <br> 
+ that contains the action type and the new state value 
 
 ```javascript
 /**
