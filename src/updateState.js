@@ -1,5 +1,5 @@
 /**
- * Creates a Redux store that holds the state tree.
+ * Creates a Dutier store that holds the state tree.
  * The only way to change the data in the store is to call `dispatch()` on it.
  * @param { Object } state The initial application state
  * @return {Function} currentState Return a function that
