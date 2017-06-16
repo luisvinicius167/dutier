@@ -41,8 +41,12 @@ createStore({ count: 1 }, reducer)
 function increment( value ) {
   return { type: 'INCREMENT', value }
 }
-
-// Your Async Reducer
+/**
+ * Async Reducer
+ * Each reducer receives the async dispatch method as fisrt argument,
+ * the current state and the action payload
+ * To change your state, always use the async dispatch method
+ */
 function reducer( dispatch, state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
@@ -90,6 +94,9 @@ function increment( value ) {
 
 /**
  * Async Reducer
+ * Each reducer receives the async dispatch method as fisrt argument,
+ * the current state and the action payload
+ * To change your state, always use the async dispatch method
  */
 function reducer( dispatch, state, { type, value } ) {
   switch (type) {
