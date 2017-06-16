@@ -12,7 +12,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 ## Getting Started
 
 ### Install
-* Yarn: ``` yarn install dutier ```
+* NPM: ``` npm install dutier ```
 * CDN: ```https://unpkg.com/dutier@0.4.0```
 
 ### Features
@@ -55,7 +55,7 @@ function reducer( dispatch, state, { type, value } ) {
         dispatch(Object.assign({}, state, { count: state.count + value }))
       }, 2000)
     default:
-      dispatch(state)  
+      return state  
   }
 }
 
@@ -106,7 +106,7 @@ function reducer( dispatch, state, { type, value } ) {
         dispatch(Object.assign({}, state, { count: state.count + value }))
       }, 2000)
     default:
-      dispatch(state)  
+      return state  
   }
 }
     
@@ -210,7 +210,7 @@ function reducer( dispatch, state, { type, value } ) {
     case 'INCREMENT':
       dispatch({ count: state.count + value })
     default:
-      dispatch(state)  
+      return state  
   }
 }
 
@@ -219,7 +219,7 @@ function otherReducer( dispatch, state, { type, value } ) {
     case 'ADD':
       dispatch( { count: value } )
     default:
-      dispatch(state)  
+      return state  
   }
 }
 
