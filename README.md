@@ -228,9 +228,7 @@ combine( reducer, otherReducer, [, ...reducers ])
 
 
 Subscribe
- * It will be called any time an action is dispatched and just if the
- * state was changed.
- * Unsubscribe when unmounted.
+ * It will be called any time an action is dispatched and just if the state was changed.
 ```javascript
 /**
  * @name subscribe
