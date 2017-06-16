@@ -1,15 +1,16 @@
-function reducer( state, { type, value } ) {
-  if (type === 'INCREMENT') { 
-    return { count: state.count + value }
+function reducer( dispatch, state, { type, value } ) {
+  switch (type) {
+    case 'INCREMENT':
+      dispatch({ count: state.count + value })
+    default:
+      dispatch(state) 
   }
-  return state
 }
 
-function reducer2( state, { type, value } ) {
-  if (type === 'INCREMEN') {
-    return { count: state.count - value }
+function reducer2( dispatch, state, { type, value } ) {
+  if (type === 'ASYNC_INCREMENT') {
+    setTimeout(_ => dispatch({ count: state.count + value }), 3000)
   }
-  return state
 }
 
 Dutier.combine(reducer, reducer2)

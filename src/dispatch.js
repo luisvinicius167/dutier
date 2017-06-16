@@ -1,4 +1,4 @@
-import applyReducer from './applyReducer'
+import asyncReducer from './asyncReducer'
 import applyHandler from './applyHandler'
 
 /**
@@ -9,6 +9,6 @@ import applyHandler from './applyHandler'
    */  
   export default  ( payload ) => {
     return Promise.resolve(payload)
-        .then(applyReducer)
+        .then(asyncReducer)
         .then(applyHandler)
   }

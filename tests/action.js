@@ -4,3 +4,10 @@ function increment (value) {
     value
   }
 }
+
+function asyncIncrement (value) {
+  return {
+    type: 'ASYNC_INCREMENT',
+    value
+  }
+}

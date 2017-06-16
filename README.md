@@ -2,8 +2,8 @@
 
 Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.3.0-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.3.0-ff69b4.svg)](https://unpkg.com/dutier@0.3.0)
+[![npm package](https://img.shields.io/badge/npm-0.4.0-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.4.0-ff69b4.svg)](https://unpkg.com/dutier@0.4.0)
 
 
 ### Influences
@@ -13,13 +13,13 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * Yarn: ``` yarn install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.3.0```
+* CDN: ```https://unpkg.com/dutier@0.4.0```
 
 ### Features
  * small 1kb minified
  * simple, small learning curve
  * no dependencies
- * async by default
+ * async reducers by default
  * promise based
  * inspired by Redux
  * tiny API.
@@ -27,7 +27,9 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  ### React Examples:
 [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1AyKXMpG)
 
-With `Dutier` your `actions` are async by default and just pure functions that returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
+With `Dutier` your `actions` are just pure functions that returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
+
+Dutier `Reducers` are async by default.
 
 ```javascript
 import { createStore, getState, dispatch } from 'dutier'
@@ -40,24 +42,29 @@ function increment( value ) {
   return { type: 'INCREMENT', value }
 }
 
-// your reducer function
-function reducer( state, { type, value } ) {
+// Your Async Reducer
+function reducer( dispatch, state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return Object.assign({}, state, { count: state.count + value })
+    // async or sync operation
+      setTimeout( () => {
+        dispatch(Object.assign({}, state, { count: state.count + value }))
+      }, 2000)
     default:
-      return state  
+      dispatch(state)  
   }
 }
+
  /**
  * Async actions
  * Use dispatch to return new values based on the state
  * tree. dispatch is async and returns a Promise with your action type and
- * the new state value
+ * the new state value.
+ * After 2 seconds, will be displayed on console:
+ * state -> {count: 2}, getState() -> {count: 2} 
  */
 dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, getState() )) // { count: 2 },{ count: 2 }
- 
+  .then( ({ type, state }) => console.log( state, getState() )) 
 ```
 
 
@@ -82,21 +89,23 @@ function increment( value ) {
 }
 
 /**
- * Simple Reducer
- * As Redux, the only way to change the state tree is to emit an action, an 
- * object describing what happened.
+ * Async Reducer
  */
-function reducer( state, { type, value } ) {
+function reducer( dispatch, state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return { count: value }
+    // async or sync operation
+      setTimeout( () => {
+        dispatch(Object.assign({}, state, { count: state.count + value }))
+      }, 2000)
     default:
-      return state  
+      dispatch(state)  
   }
 }
     
 /**
- * You can use subscribe() to update your UI in response to actions
+ * You can use subscribe() to update your UI in response to actions;
+ * The subscribe are just be called if the state was changed.
  */
  componentWillMount() {
   this.unsubscribe = subscribe( { type, state } ) => {
@@ -108,17 +117,12 @@ function reducer( state, { type, value } ) {
 /**
  * Use dispatch to return new values based on the state
  * tree. dispatch is async and returns a Promise with your action type and
- * the new state value
+ * the new state value.
  */
 dispatch(increment( 1 ))
  .then( ({ type, state }) => {
    console.log(`The value is: ${getState().count}`) // 2
  })
- 
-dispatch(increment( 1 )) // 3
-dispatch(increment( 1 )) // 4
-
-getState().count // 4
 ```
 
 ### Simple and efficient API.
@@ -157,7 +161,7 @@ function increment( value ) {
 
 
 Store State
- * Set the initial Application store state. 
+ * Set the initial Application store state.
 ```javascript
 /**
  * @name createStore
@@ -172,11 +176,11 @@ createStore( { count: 1 }  [, ...reducers] )
 ```
 
 Getting the store state
- * Get a state value from your store
+ * Get the current state value
 ```javascript
 /**
  * @name getState
- * @description Get the state value
+ * @description Get the current state value
  */
  
 import {getState} from 'dutier'
@@ -189,35 +193,42 @@ Combine
 ```javascript
 /**
  * @name combine
- * @param {Function} Your reducers functions
- * Each reducer function receives your actual store state
- * as first argument
+ * @param {Function} Register your reducers
  */
  
 import { combine } from 'dutier'
 
-function reducer( state, { type, value } ) {
+function reducer( dispatch, state, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      return Object.assign( {}, state, { count: state.count + value })
+      dispatch({ count: state.count + value })
     default:
-      return state  
+      dispatch(state)  
   }
 }
 
-combine( reducer [, ...reducers ])
+function otherReducer( dispatch, state, { type, value } ) {
+  switch (type) {
+    case 'ADD':
+      dispatch( { count: value } )
+    default:
+      dispatch(state)  
+  }
+}
+
+combine( reducer, otherReducer, [, ...reducers ])
 ```
 
 
 Subscribe
- * Subscribe to your store to update your UI in response to actions.
+ * It will be called any time an action is dispatched and just if the
+ * state was changed.
  * Unsubscribe when unmounted.
 ```javascript
 /**
  * @name subscribe
- * @description Bind your UI to changes in your store state.
- * @param { Component } BindComponent The UI element that the handler function will be bound to.
- * @param { handler } handler A callback function that will be triggered in response to actions.
+ * @param { handler } handler A callback function that will be triggered when
+ * your state change
  */
  
 import {subscribe, getState} from 'dutier'

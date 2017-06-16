@@ -16,12 +16,14 @@ describe('Initial store state', function () {
     })
   })
 
-  describe('#INCREMENT and check the state', function () {
-    it.only('The state should be 2 and the initial state should be 1', function () {
-      dispatch(increment(1))
-        .then(function ({type, state}) {
-          expect(getState().count).to.equal(3)
-        })
+  describe('#Async action reducer', function () {
+    it.only('The state should be 3 and the initial state should be 1', function () {
+      setTimeout( () => {
+        dispatch( asyncIncrement(1) )
+          .then(function ({type, state}) {
+            expect(state.count).to.equal(3)
+          })
+      }, 400)
     })
   })
 })

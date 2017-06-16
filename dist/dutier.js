@@ -10,12 +10,22 @@
 	(factory((global.Dutier = global.Dutier || {})));
 }(this, (function (exports) { 'use strict';
 
+/**
+ * The Providers
+ */
 var Provider = {
   _reducers: {},
   _handlers: [],
   _updateState: function _updateState() {}
 };
 
+/**
+ * Creates a Dutier store that holds the state tree.
+ * The only way to change the data in the store is to call `dispatch()` on it.
+ * @param { Object } state The initial application state
+ * @return {Function} currentState Return a function that
+ * update and return the current state
+ */
 var create = (function (state) {
   return function (state) {
     var state = Object.assign({}, state);
@@ -28,8 +38,9 @@ var create = (function (state) {
 
 /**
  * @name createStore
- * @description Sets the application data state
+ * @description Sets the store state
  * @param {Object} data Simple Object that contain the State
+ * @param {Function} reducers The action reducers
  */
 var createStore = (function (state) {
   for (var _len = arguments.length, reducers = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
@@ -42,17 +53,30 @@ var createStore = (function (state) {
   Provider._updateState = create(state);
 });
 
-var applyReducer = (function (action) {
-  var currentState = Provider._updateState({});
-  Object.keys(Provider._reducers).forEach(function (reducer) {
-    var value = Provider._reducers[reducer].call(null, currentState, action);
-    if (JSON.stringify(value) !== JSON.stringify(currentState)) {
-      return Provider._updateState(value);
-    }
+/**
+ * Async Reducer
+ * Just dispatch if return new state values.
+ * With this, the subscribe function will not be
+ * called unnecessary, because the state don't be changed
+ */
+var asyncReducer = (function (action) {
+  return new Promise(function (resolve, reject) {
+    Object.keys(Provider._reducers).forEach(function (reducer) {
+      var asyncReducer = new Promise(function (resolve) {
+        return Provider._reducers[reducer].call(null, resolve, Provider._updateState({}), action);
+      });
+      asyncReducer.then(function (state) {
+        if (JSON.stringify(state) !== JSON.stringify(Provider._updateState({}))) {
+          resolve({ type: action.type, state: Provider._updateState(state) });
+        }
+      });
+    });
   });
-  return { type: action.type, state: Provider._updateState({}) };
 });
 
+/**
+ * Apply the subscribe handler functions
+ */
 var applyHandler = (function (_ref) {
   var type = _ref.type,
       state = _ref.state;
@@ -72,7 +96,7 @@ var applyHandler = (function (_ref) {
    * @param { Object } payload The action payload
    */
 var dispatch = (function (payload) {
-   return Promise.resolve(payload).then(applyReducer).then(applyHandler);
+   return Promise.resolve(payload).then(asyncReducer).then(applyHandler);
 });
 
 /**
