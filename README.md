@@ -43,7 +43,7 @@ function increment( value ) {
 }
 /**
  * Async Reducer
- * Each reducer receives the async dispatch method as fisrt argument,
+ * Each reducer receives the async dispatch method as first argument,
  * the current state and the action payload
  * To change your state, always use the async dispatch method
  */
