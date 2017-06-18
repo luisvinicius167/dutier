@@ -5,6 +5,6 @@ import {Provider} from './providers'
  * @description Combine the reducers
  */  
 export default ( ...reducers ) => {
-  let len =  Object.keys(Provider._reducers).length
+  let len =  Provider._reducers.length
   reducers.forEach( reducer => { Provider._reducers[len + 1] = reducer; len++ })
 }

@@ -8,9 +8,9 @@ import { Provider } from './providers'
  */
 export default (action) => {
   return new Promise( (resolve, reject )=> {
-    Object.keys(Provider._reducers)
+    Provider._reducers
       .forEach( reducer => {
-        const asyncReducer = new Promise(resolve => Provider._reducers[reducer].call(null, resolve, Provider._updateState({}), action))
+        const asyncReducer = new Promise(resolve => reducer.call(null, resolve, Provider._updateState({}), action))
         asyncReducer.then( state => {
           if (JSON.stringify(state) !== JSON.stringify(Provider._updateState({}))) {
             resolve({type: action.type, state: Provider._updateState(state) })

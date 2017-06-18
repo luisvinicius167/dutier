@@ -14,7 +14,7 @@
  * The Providers
  */
 var Provider = {
-  _reducers: {},
+  _reducers: [],
   _handlers: [],
   _updateState: function _updateState() {}
 };
@@ -61,9 +61,9 @@ var createStore = (function (state) {
  */
 var asyncReducer = (function (action) {
   return new Promise(function (resolve, reject) {
-    Object.keys(Provider._reducers).forEach(function (reducer) {
+    Provider._reducers.forEach(function (reducer) {
       var asyncReducer = new Promise(function (resolve) {
-        return Provider._reducers[reducer].call(null, resolve, Provider._updateState({}), action);
+        return reducer.call(null, resolve, Provider._updateState({}), action);
       });
       asyncReducer.then(function (state) {
         if (JSON.stringify(state) !== JSON.stringify(Provider._updateState({}))) {
@@ -116,7 +116,7 @@ var combine = (function () {
     reducers[_key] = arguments[_key];
   }
 
-  var len = Object.keys(Provider._reducers).length;
+  var len = Provider._reducers.length;
   reducers.forEach(function (reducer) {
     Provider._reducers[len + 1] = reducer;len++;
   });
