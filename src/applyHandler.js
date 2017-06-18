@@ -6,8 +6,8 @@ import { Provider } from './providers'
 export default ({ type, state }) => {
   Provider._handlers.forEach(handler => {
     if (handler !== undefined && typeof handler === 'function') {
-      handler({ type, state})
+      handler({ type, state })
     }
   })
-  return { type, state}
+  return { type, state }
 }

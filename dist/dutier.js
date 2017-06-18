@@ -24,7 +24,7 @@ var Provider = {
  * The only way to change the data in the store is to call `dispatch()` on it.
  * @param { Object } state The initial application state
  * @return {Function} currentState Return a function that
- * update and return the current state
+ * updates and returns the current state
  */
 var create = (function (state) {
   return function (state) {
@@ -47,9 +47,7 @@ var createStore = (function (state) {
     reducers[_key - 1] = arguments[_key];
   }
 
-  reducers.forEach(function (reducer, index) {
-    return Provider._reducers[index] = reducer;
-  });
+  Provider._reducers = [].concat(reducers);
   Provider._updateState = create(state);
 });
 
