@@ -24,7 +24,7 @@ var Provider = {
  * The only way to change the data in the store is to call `dispatch()` on it.
  * @param { Object } state The initial application state
  * @return {Function} currentState Return a function that
- * update and return the current state
+ * updates and returns the current state
  */
 var create = (function (state) {
   return function (state) {
@@ -47,9 +47,7 @@ var createStore = (function (state) {
     reducers[_key - 1] = arguments[_key];
   }
 
-  reducers.forEach(function (reducer, index) {
-    return Provider._reducers[index] = reducer;
-  });
+  Provider._reducers = [].concat(reducers);
   Provider._updateState = create(state);
 });
 
@@ -112,21 +110,16 @@ var getState = (function () {
  * @description Combine the reducers
  */
 var combine = (function () {
-  for (var _len = arguments.length, reducers = Array(_len), _key = 0; _key < _len; _key++) {
-    reducers[_key] = arguments[_key];
-  }
+  var _Provider$_reducers;
 
-  var len = Provider._reducers.length;
-  reducers.forEach(function (reducer) {
-    Provider._reducers[len + 1] = reducer;len++;
-  });
+  (_Provider$_reducers = Provider._reducers).push.apply(_Provider$_reducers, arguments);
 });
 
 /**
-   * @name unsubscribe
-   * @description Unsubscribes from listening to a component
-   * @param {Function} handler The handler function
-   **/
+ * @name unsubscribe
+ * @description Unsubscribes from listening to a component
+ * @param {Function} handler The handler function
+ **/
 var unsubscribe = (function (handler) {
   Provider._handlers.forEach(function (fn, index) {
     if (fn === handler) {
@@ -136,10 +129,11 @@ var unsubscribe = (function (handler) {
 });
 
 /**
-   * @name subscribe
-   * @description Subscribe to call the handler function when the action will be triggered
-   * @param {Function} handler The function that will be called
-   **/
+ * Subscribe to receive notifications when state is updated.
+ * @name subscribe
+ * @description Subscribe to call the handler function when the action will be triggered
+ * @param {Function} handler The function that will be called
+ **/
 var subscribe = (function (handler) {
   Provider._handlers.push(handler);
   return function () {
