@@ -1,5 +1,3 @@
-const {subscribe} = Dutier
-
-const unsubscribe = subscribe( ( { type, state } ) => {
+const unsubscribe = store.subscribe( ( { type, state } ) => {
   console.log(type, state)
 })

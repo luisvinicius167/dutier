@@ -1,3 +1,3 @@
 const {createStore} = Dutier
 
-createStore({count:1})
+const store = createStore({count:1})

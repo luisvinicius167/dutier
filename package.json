@@ -1,6 +1,6 @@
 {
   "name": "dutier",
-  "version": "0.4.1",
+  "version": "0.5.0",
   "description": "Dutier is a small (1kb) and simple functional component state management solution for Javascript applications.",
   "main": "dist/dutier.min.js",
   "module": "src/index.js",

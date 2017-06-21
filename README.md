@@ -2,8 +2,8 @@
 
 Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.4.1-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.4.1-ff69b4.svg)](https://unpkg.com/dutier@0.4.0)
+[![npm package](https://img.shields.io/badge/npm-0.5.0-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.5.0-ff69b4.svg)](https://unpkg.com/dutier@0.4.0)
 
 
 ### Influences
@@ -13,7 +13,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.4.1```
+* CDN: ```https://unpkg.com/dutier@0.5.0```
 
 ### Features
  * small 1kb minified
@@ -32,10 +32,10 @@ With `Dutier` your `actions` are just pure functions that returns a payload info
 Dutier `Reducers` are async by default.
 
 ```javascript
-import { createStore, getState, dispatch } from 'dutier'
+import { createStore } from 'dutier'
 
 // sets your initial application state
-createStore({ count: 1 }, reducer)
+const store = createStore({ count: 1 }, reducer)
 
 // your action
 function increment( value ) {
@@ -61,14 +61,14 @@ function reducer( dispatch, state, { type, value } ) {
 
  /**
  * Async actions
- * Use dispatch to return new values based on the state
- * tree. dispatch is async and returns a Promise with your action type and
+ * Use store.dispatch to return new values based on the state
+ * tree. store.dispatch is async and returns a Promise with your action type and
  * the new state value.
  * After 2 seconds, will be displayed on console:
  * state -> {count: 2}, getState() -> {count: 2} 
  */
-dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, getState() )) 
+store.dispatch( increment(1) )
+  .then( ({ type, state }) => console.log( state, store.getState() )) 
 ```
 
 
@@ -78,12 +78,13 @@ The application state is stored in an object tree inside a single store. Your ac
 That's it!
 
 ```javascript
-import { createStore, subscribe, dispatch, getState } from 'dutier'
+import { createStore } from 'dutier'
 
 /**
  * Set the initial store state in a single object.
+ * Create store returns the functions: subscribe, dispatch and getState
  */
-createStore( { count: 1 } )
+const store = createStore( { count: 1 } )
 
 /**
  * Actions are pure functions that return a payload
@@ -111,22 +112,22 @@ function reducer( dispatch, state, { type, value } ) {
 }
     
 /**
- * You can use subscribe() to update your UI in response to actions;
+ * You can use store.subscribe() to update your UI in response to actions;
  * The subscribe are just be called if the state was changed.
  */
  componentWillMount() {
-  this.unsubscribe = subscribe( { type, state } ) => {
-    console.log('Reducer new state value ', state, 'Store state: ', getState())
+  this.unsubscribe = store.subscribe( { type, state } ) => {
+    console.log('Reducer new state value ', state, 'Store state: ', store.getState())
   })
  }
 
 
 /**
- * Use dispatch to return new values based on the state
- * tree. dispatch is async and returns a Promise with your action type and
+ * Use store.dispatch to return new values based on the state
+ * tree. store.dispatch is async and returns a Promise with your action type and
  * the new state value.
  */
-dispatch(increment( 1 ))
+store.dispatch( increment( 1 ) )
  .then( ({ type, state }) => {
    console.log(`The value is: ${getState().count}`) // 2
  })
@@ -134,7 +135,7 @@ dispatch(increment( 1 ))
 
 ### Simple and efficient API.
 
-Dispatch
+store.dispatch
  * Trigger an action to do something with the state. It's async by default and always return a promise <br> 
  that contains the action type and the new state value 
 
@@ -146,12 +147,9 @@ Dispatch
  * @return {Promise} Return a Promise with the action payload
  */
 
-// On your component
-import {dispatch} from 'dutier'
-
 // You can receive the response of your action and do something, or not.
 // If you want, you can chain the dispatch Promises.
-dispatch( increment(1) )
+store.dispatch( increment(1) )
   .then( ({ type, state }) => {
     console.log(type, state)
   })
@@ -173,13 +171,14 @@ Store State
 /**
  * @name createStore
  * @description Set your initial Application store state
+ * You just can set your store state one time.
  * @param { Object } state Your application state data
  * @param { Function } reducers Your store reducers
  */
  
 import { createStore } from 'dutier'
 
-createStore( { count: 1 }  [, ...reducers] )
+const store = createStore( { count: 1 }  [, ...reducers] )
 ```
 
 Getting the store state
@@ -189,10 +188,8 @@ Getting the store state
  * @name getState
  * @description Get the current state value
  */
- 
-import {getState} from 'dutier'
 
-getState() // returns a copy of your store state { count: 1 }
+store.getState() // returns a copy of your store state { count: 1 }
 ```
 
 Combine
@@ -227,7 +224,7 @@ combine( reducer, otherReducer, [, ...reducers ])
 ```
 
 
-Subscribe
+store.subscribe
  * It will be called any time an action is dispatched and just if the state was changed.
 ```javascript
 /**
@@ -235,13 +232,11 @@ Subscribe
  * @param { handler } handler A callback function that will be triggered when
  * your state change
  */
- 
-import {subscribe, getState} from 'dutier'
   
   componentWillMount(){
      // Subscribe to changes on your store, do something with the value.
-     this.unsubscribe = subscribe(( { type, state } ) => {
-       this.setState( { count: getState().count } )
+     this.unsubscribe = store.subscribe(( { type, state } ) => {
+       this.setState( { count: store.getState().count } )
      })
   }
   

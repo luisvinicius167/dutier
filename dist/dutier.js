@@ -37,21 +37,6 @@ var create = (function (state) {
 });
 
 /**
- * @name createStore
- * @description Sets the store state
- * @param {Object} data Simple Object that contain the State
- * @param {Function} reducers The action reducers
- */
-var createStore = (function (state) {
-  for (var _len = arguments.length, reducers = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    reducers[_key - 1] = arguments[_key];
-  }
-
-  Provider._reducers = [].concat(reducers);
-  Provider._updateState = create(state);
-});
-
-/**
  * Async Reducer
  * Just dispatch if return new state values.
  * With this, the subscribe function will not be
@@ -106,16 +91,6 @@ var getState = (function () {
 });
 
 /**
- * @name combine
- * @description Combine the reducers
- */
-var combine = (function () {
-  var _Provider$_reducers;
-
-  (_Provider$_reducers = Provider._reducers).push.apply(_Provider$_reducers, arguments);
-});
-
-/**
  * @name unsubscribe
  * @description Unsubscribes from listening to a component
  * @param {Function} handler The handler function
@@ -141,11 +116,39 @@ var subscribe = (function (handler) {
   };
 });
 
+var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
+
+/**
+ * @name createStore
+ * @description Sets the store state
+ * @param {Object} data Simple Object that contain the State
+ * @param {Function} reducers The action reducers
+ */
+var createStore = (function (state) {
+  for (var _len = arguments.length, reducers = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+    reducers[_key - 1] = arguments[_key];
+  }
+
+  Provider._reducers = [].concat(reducers);
+  if (_typeof(Provider._updateState({})) === 'object') {
+    throw new Error('You just can create one store inside your application.');
+  }
+  Provider._updateState = create(state);
+  return { dispatch: dispatch, subscribe: subscribe, getState: getState };
+});
+
+/**
+ * @name combine
+ * @description Combine the reducers
+ */
+var combine = (function () {
+  var _Provider$_reducers;
+
+  (_Provider$_reducers = Provider._reducers).push.apply(_Provider$_reducers, arguments);
+});
+
 exports.createStore = createStore;
-exports.dispatch = dispatch;
-exports.getState = getState;
 exports.combine = combine;
-exports.subscribe = subscribe;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
