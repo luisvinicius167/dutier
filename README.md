@@ -31,47 +31,6 @@ With `Dutier` your `actions` are just pure functions that returns a payload info
 
 Dutier `Reducers` are async by default.
 
-```javascript
-import { createStore } from 'dutier'
-
-// sets your initial application state
-const store = createStore({ count: 1 }, reducer)
-
-// your action
-function increment( value ) {
-  return { type: 'INCREMENT', value }
-}
-/**
- * Async Reducer
- * Each reducer receives the async dispatch method as first argument,
- * the current state and the action payload
- * To change your state, always use the async dispatch method
- */
-function reducer( dispatch, state, { type, value } ) {
-  switch (type) {
-    case 'INCREMENT':
-    // async or sync operation
-      setTimeout( () => {
-        dispatch(Object.assign({}, state, { count: state.count + value }))
-      }, 2000)
-    default:
-      return state  
-  }
-}
-
- /**
- * Async actions
- * Use store.dispatch to return new values based on the state
- * tree. store.dispatch is async and returns a Promise with your action type and
- * the new state value.
- * After 2 seconds, will be displayed on console:
- * state -> {count: 2}, getState() -> {count: 2} 
- */
-store.dispatch( increment(1) )
-  .then( ({ type, state }) => console.log( state, store.getState() )) 
-```
-
-
 ### The Gist
 The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
 
