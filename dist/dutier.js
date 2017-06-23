@@ -154,8 +154,6 @@ var subscribe = (function (handler) {
   };
 });
 
-var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
-
 /**
  * @name createStore
  * @description Sets the store state
@@ -167,12 +165,8 @@ var createStore = (function () {
     reducers[_key] = arguments[_key];
   }
 
-  setReducer(reducers);
-  if (_typeof(Provider._updateState({})) === 'object') {
-    throw new Error('You just can create one store inside your application.');
-  }
-
   Provider._updateState = create({});
+  setReducer(reducers);
   return { dispatch: dispatch, subscribe: subscribe, getState: getState };
 });
 

@@ -2,8 +2,8 @@
 
 Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.6.0-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.6.0-ff69b4.svg)](https://unpkg.com/dutier@0.6.0)
+[![npm package](https://img.shields.io/badge/npm-0.6.1-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.6.1-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
 
 
 ### Influences
@@ -13,7 +13,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.6.0```
+* CDN: ```https://unpkg.com/dutier@0.6.1```
 
 ### Features
  * small 1kb minified

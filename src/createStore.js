@@ -12,11 +12,7 @@ import subscribe from './subscribe'
  * @param {Function} reducers The action reducers
  */
 export default ( ...reducers ) => {
-  setReducer(reducers)
-  if ( typeof Provider._updateState({}) === 'object' ) {
-    throw new Error('You just can create one store inside your application.')
-  }
-  
   Provider._updateState = create({})
+  setReducer(reducers)
   return { dispatch, subscribe, getState }
 }
