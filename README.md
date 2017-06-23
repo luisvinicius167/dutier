@@ -48,7 +48,10 @@ const store = createStore([, ...reducers])
  * the payload information to Reducer
  */
 function increment( value ) {
-  return dispatch => dispatch({ type: 'INCREMENT', value })
+  return dispatch => {
+    // async code here
+    dispatch({ type: 'INCREMENT', value })
+  }
 }
 
 /**
