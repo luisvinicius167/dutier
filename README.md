@@ -2,8 +2,8 @@
 
 Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.5.0-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.5.0-ff69b4.svg)](https://unpkg.com/dutier@0.4.0)
+[![npm package](https://img.shields.io/badge/npm-0.6.0-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.6.0-ff69b4.svg)](https://unpkg.com/dutier@0.6.0)
 
 
 ### Influences
@@ -13,23 +13,20 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.5.0```
+* CDN: ```https://unpkg.com/dutier@0.6.0```
 
 ### Features
  * small 1kb minified
+ * Async by default
  * simple, small learning curve
  * no dependencies
- * async reducers by default
  * promise based
  * inspired by Redux
- * tiny API.
  
  ### React Examples:
 [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/1AyKXMpG)
 
-With `Dutier` your `actions` are just pure functions that returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
-
-Dutier `Reducers` are async by default.
+With `Dutier` your `actions` are async pure functions that returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
 
 ### The Gist
 The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
@@ -40,31 +37,30 @@ That's it!
 import { createStore } from 'dutier'
 
 /**
- * Set the initial store state in a single object.
+ * Create the store and pass the reducers if you have.
  * Create store returns the functions: subscribe, dispatch and getState
  */
-const store = createStore( { count: 1 } )
+const store = createStore([, ...reducers])
 
 /**
- * Actions are pure functions that return a payload
+ * Actions are pure functions that return a function
+ * with the action payload. You need to dispatch
+ * the payload information to Reducer
  */
 function increment( value ) {
-  return { type: 'INCREMENT', value }
+  return dispatch => dispatch({ type: 'INCREMENT', value })
 }
 
 /**
- * Async Reducer
- * Each reducer receives the async dispatch method as fisrt argument,
- * the current state and the action payload
- * To change your state, always use the async dispatch method
+ * Reducer
+ * Each reducer receives the reducer state as fisrt argument,
+ * and the action payload
  */
-function reducer( dispatch, state, { type, value } ) {
+ const initialState = { count: 1 }
+function reducer( state=initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-    // async or sync operation
-      setTimeout( () => {
-        dispatch(Object.assign({}, state, { count: state.count + value }))
-      }, 2000)
+        return { count: state.count + value }
     default:
       return state  
   }
@@ -103,7 +99,7 @@ store.dispatch
  * @name dispatch
  * @description Trigger some action.
  * @param { Function } The function that return your action payload
- * @return {Promise} Return a Promise with the action payload
+ * @return { Promise} Return a Promise with the action payload
  */
 
 // You can receive the response of your action and do something, or not.
@@ -115,29 +111,27 @@ store.dispatch( increment(1) )
 ```
 
 Actions
- * Actions are payloads of information that send data from your application to your store. They are the only source of information for the store. You send them to the store using dispatch().
+ * Actions are async pure functions that returns a function with the dispatch method as first argument to dispatch the payload information to your reducers, for change the state.
  
 ```javascript
 function increment( value ) {
-  return { type: 'INCREMENT', value }
+  return dispatch => dispatch({ type: 'INCREMENT', value })
 }
 ```
 
 
-Store State
- * Set the initial Application store state.
+Store
+ * Create your application store
 ```javascript
 /**
  * @name createStore
- * @description Set your initial Application store state
  * You just can set your store state one time.
- * @param { Object } state Your application state data
  * @param { Function } reducers Your store reducers
  */
  
 import { createStore } from 'dutier'
 
-const store = createStore( { count: 1 }  [, ...reducers] )
+const store = createStore( [, ...reducers] )
 ```
 
 Getting the store state
@@ -156,24 +150,24 @@ Combine
 ```javascript
 /**
  * @name combine
- * @param {Function} Register your reducers
+ * @param { Function } Your reducers
  */
  
 import { combine } from 'dutier'
 
-function reducer( dispatch, state, { type, value } ) {
+function reducer( state={ count: 1 }, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      dispatch({ count: state.count + value })
+      return { count: state.count + value }
     default:
       return state  
   }
 }
 
-function otherReducer( dispatch, state, { type, value } ) {
+function otherReducer( state={ counter: 1}, { type, value } ) {
   switch (type) {
     case 'ADD':
-      dispatch( { count: value } )
+      return { count: value }
     default:
       return state  
   }

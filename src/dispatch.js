@@ -8,7 +8,8 @@ import applyHandler from './applyHandler'
    * @param { Object } payload The action payload
    */  
   export default  ( payload ) => {
-    return Promise.resolve(payload)
-        .then(asyncReducer)
-        .then(applyHandler)
+    return new Promise( resolve => 
+      payload.call(null, resolve )
+    ).then(asyncReducer)
+    .then(applyHandler)
   }

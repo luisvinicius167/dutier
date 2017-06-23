@@ -1,9 +1,9 @@
-import {Provider} from './providers'
+import setReducer from './setReducer'
 
 /**
  * @name combine
  * @description Combine the reducers
  */  
-export default (...reducers) => {
-  Provider._reducers.push(...reducers);
+export default (...reducers) => { 
+  setReducer(reducers)
 }

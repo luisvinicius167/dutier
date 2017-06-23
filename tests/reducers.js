@@ -1,15 +1,19 @@
-function reducer( dispatch, state, { type, value } ) {
+const initialState = { count: 1 }
+function reducer( state=initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
-      dispatch({ count: state.count + value })
+      return { count: state.count + value }
     default:
-      dispatch(state) 
+      return state
   }
 }
 
-function reducer2( dispatch, state, { type, value } ) {
-  if (type === 'ASYNC_INCREMENT') {
-    setTimeout(_ => dispatch({ count: state.count + value }), 3000)
+function reducer2( state = { counter: 1 }, { type, value } ) {
+    switch (type) {
+    case 'ASYNC_INCREMENT':
+      return { counter: state.counter + value }
+    default:
+      return state
   }
 }
 

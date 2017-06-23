@@ -14,10 +14,26 @@
  * The Providers
  */
 var Provider = {
-  _reducers: [],
+  // The reducers
+  _reducers: new Map(),
+  // The subscribe handlers
   _handlers: [],
+  // The state manager
   _updateState: function _updateState() {}
 };
+
+/**
+ * @name setReducer
+ * @description Set the reducer function, the
+ * initial state of the reducer and store state
+ */
+var setReducer = (function (reducers) {
+  reducers.forEach(function (reducer) {
+    var initial = reducer(undefined, { type: '@@DUTIER.INITIAL_STATE' });
+    Provider._reducers.set(reducer, { initial: initial });
+    Provider._updateState(initial);
+  });
+});
 
 /**
  * Creates a Dutier store that holds the state tree.
@@ -44,16 +60,36 @@ var create = (function (state) {
  */
 var asyncReducer = (function (action) {
   return new Promise(function (resolve, reject) {
-    Provider._reducers.forEach(function (reducer) {
-      var asyncReducer = new Promise(function (resolve) {
-        return reducer.call(null, resolve, Provider._updateState({}), action);
-      });
-      asyncReducer.then(function (state) {
-        if (JSON.stringify(state) !== JSON.stringify(Provider._updateState({}))) {
-          resolve({ type: action.type, state: Provider._updateState(state) });
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+      for (var _iterator = Provider._reducers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        var reducer = _step.value;
+
+        var reducerFunction = reducer[0];
+        var reducerProps = reducer[1];
+        var stateReducer = reducerProps.current ? reducerProps.current : reducerProps.initial;
+        var current = reducerProps.current = reducerFunction(stateReducer, action);
+        if (JSON.stringify(current) !== JSON.stringify(stateReducer)) {
+          return resolve({ type: action.type, state: Provider._updateState(current) });
         }
-      });
-    });
+      }
+    } catch (err) {
+      _didIteratorError = true;
+      _iteratorError = err;
+    } finally {
+      try {
+        if (!_iteratorNormalCompletion && _iterator.return) {
+          _iterator.return();
+        }
+      } finally {
+        if (_didIteratorError) {
+          throw _iteratorError;
+        }
+      }
+    }
   });
 });
 
@@ -79,7 +115,9 @@ var applyHandler = (function (_ref) {
    * @param { Object } payload The action payload
    */
 var dispatch = (function (payload) {
-   return Promise.resolve(payload).then(asyncReducer).then(applyHandler);
+  return new Promise(function (resolve) {
+    return payload.call(null, resolve);
+  }).then(asyncReducer).then(applyHandler);
 });
 
 /**
@@ -124,16 +162,17 @@ var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol
  * @param {Object} data Simple Object that contain the State
  * @param {Function} reducers The action reducers
  */
-var createStore = (function (state) {
-  for (var _len = arguments.length, reducers = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-    reducers[_key - 1] = arguments[_key];
+var createStore = (function () {
+  for (var _len = arguments.length, reducers = Array(_len), _key = 0; _key < _len; _key++) {
+    reducers[_key] = arguments[_key];
   }
 
-  Provider._reducers = [].concat(reducers);
+  setReducer(reducers);
   if (_typeof(Provider._updateState({})) === 'object') {
     throw new Error('You just can create one store inside your application.');
   }
-  Provider._updateState = create(state);
+
+  Provider._updateState = create({});
   return { dispatch: dispatch, subscribe: subscribe, getState: getState };
 });
 
@@ -142,9 +181,11 @@ var createStore = (function (state) {
  * @description Combine the reducers
  */
 var combine = (function () {
-  var _Provider$_reducers;
+  for (var _len = arguments.length, reducers = Array(_len), _key = 0; _key < _len; _key++) {
+    reducers[_key] = arguments[_key];
+  }
 
-  (_Provider$_reducers = Provider._reducers).push.apply(_Provider$_reducers, arguments);
+  setReducer(reducers);
 });
 
 exports.createStore = createStore;
