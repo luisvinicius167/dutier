@@ -40,7 +40,7 @@ import { createStore } from 'dutier'
  * Create the store and pass the reducers if you have.
  * Create store returns the functions: subscribe, dispatch and getState
  */
-const store = createStore([, ...reducers])
+const store = createStore(initialReducer, [, ...reducers])
 
 /**
  * Actions are pure functions that return a function
@@ -60,7 +60,7 @@ function increment( value ) {
  * and the action payload
  */
  const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
+function initialReducer( state=initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
         return { count: state.count + value }
