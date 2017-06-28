@@ -4,6 +4,7 @@ const { combine } = Dutier
 describe('Initial store state', function () {
   describe('#getState() ', function () {
     it.only('should be 1', function () {
+      console.log(store.getState())
       expect(store.getState().count).to.equal(1)
       expect(store.getState().counter).to.equal(1)
     })

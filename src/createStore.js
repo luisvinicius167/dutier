@@ -12,7 +12,9 @@ import subscribe from './subscribe'
  * @param {Function} reducers The action reducers
  */
 export default ( ...reducers ) => {
-  Provider._updateState = create({})
+  if (Provider._updateState({}) === undefined) {
+    Provider._updateState = create({})
+  }
   setReducer(reducers)
   return { dispatch, subscribe, getState }
 }

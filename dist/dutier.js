@@ -23,19 +23,6 @@ var Provider = {
 };
 
 /**
- * @name setReducer
- * @description Set the reducer function, the
- * initial state of the reducer and store state
- */
-var setReducer = (function (reducers) {
-  reducers.forEach(function (reducer) {
-    var initial = reducer(undefined, { type: '@@DUTIER.INITIAL_STATE' });
-    Provider._reducers.set(reducer, { initial: initial });
-    Provider._updateState(initial);
-  });
-});
-
-/**
  * Creates a Dutier store that holds the state tree.
  * The only way to change the data in the store is to call `dispatch()` on it.
  * @param { Object } state The initial application state
@@ -50,6 +37,23 @@ var create = (function (state) {
       return state;
     };
   }(state);
+});
+
+/**
+ * @name setReducer
+ * @description Set the reducer function, the
+ * initial state of the reducer and store state
+ */
+var setReducer = (function (reducers) {
+    // if createStore don't was called yet
+    if (Provider._updateState({}) === undefined) {
+        Provider._updateState = create({});
+    }
+    reducers.forEach(function (reducer) {
+        var initial = reducer(undefined, { type: '@@DUTIER.INITIAL_STATE' });
+        Provider._reducers.set(reducer, { initial: initial });
+        Provider._updateState(initial);
+    });
 });
 
 /**
@@ -165,7 +169,9 @@ var createStore = (function () {
     reducers[_key] = arguments[_key];
   }
 
-  Provider._updateState = create({});
+  if (Provider._updateState({}) === undefined) {
+    Provider._updateState = create({});
+  }
   setReducer(reducers);
   return { dispatch: dispatch, subscribe: subscribe, getState: getState };
 });
