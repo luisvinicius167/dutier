@@ -2,8 +2,8 @@
 
 Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.6.1-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.6.1-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
+[![npm package](https://img.shields.io/badge/npm-0.6.2-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-0.6.2-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
 
 
 ### Influences
@@ -13,7 +13,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.6.1```
+* CDN: ```https://unpkg.com/dutier@0.6.2```
 
 ### Features
  * small 1kb minified
@@ -40,7 +40,7 @@ import { createStore } from 'dutier'
  * Create the store and pass the reducers if you have.
  * Create store returns the functions: subscribe, dispatch and getState
  */
-const store = createStore(initialReducer, [, ...reducers])
+const store = createStore(reducer)
 
 /**
  * Actions are pure functions that return a function
@@ -60,7 +60,7 @@ function increment( value ) {
  * and the action payload
  */
  const initialState = { count: 1 }
-function initialReducer( state=initialState, { type, value } ) {
+function reducer( state=initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
         return { count: state.count + value }
@@ -129,12 +129,12 @@ Store
 /**
  * @name createStore
  * You just can set your store state one time.
- * @param { Function } reducer Your store reducer or reducers
+ * @param { Function } reducer Your store reducers
  */
  
 import { createStore } from 'dutier'
 
-const store = createStore( reducer [, ...reducers] )
+const store = createStore([, ...reducers] )
 ```
 
 Getting the store state
