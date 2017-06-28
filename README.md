@@ -129,12 +129,12 @@ Store
 /**
  * @name createStore
  * You just can set your store state one time.
- * @param { Function } reducers Your store reducers
+ * @param { Function } reducer Your store reducer or reducers
  */
  
 import { createStore } from 'dutier'
 
-const store = createStore( [, ...reducers] )
+const store = createStore( reducer [, ...reducers] )
 ```
 
 Getting the store state
