@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
+Dutier is a small (1kb), async and powerfull state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-0.6.2-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-0.6.2-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
@@ -17,8 +17,8 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Features
  * small 1kb minified
- * Async by default
- * simple, small learning curve
+ * async by default
+ * small learning curve
  * no dependencies
  * promise based
  * inspired by Redux
@@ -26,7 +26,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  ### React TodoMVC Example:
  [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mZnrX7GN0)
 
-With `Dutier` your `actions` are async pure functions that returns a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
+With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
 
 ### The Gist
 The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
@@ -35,6 +35,22 @@ That's it!
 
 ```javascript
 import { createStore } from 'dutier'
+
+/**
+ * Reducer
+ * The reducer state needs to be an Object
+ * Each reducer receives the reducer state as fisrt argument
+ * and the action payload
+ */
+const initialState = { count: 1 }
+function reducer( state=initialState, { type, value } ) {
+  switch (type) {
+    case 'INCREMENT':
+        return { count: state.count + value }
+    default:
+      return state  
+  }
+}
 
 /**
  * Create the store and pass the reducers if you have.
@@ -51,21 +67,6 @@ function increment( value ) {
   return dispatch => {
     // async code here
     dispatch({ type: 'INCREMENT', value })
-  }
-}
-
-/**
- * Reducer
- * Each reducer receives the reducer state as fisrt argument,
- * and the action payload
- */
- const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
-  switch (type) {
-    case 'INCREMENT':
-        return { count: state.count + value }
-    default:
-      return state  
   }
 }
     
