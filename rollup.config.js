@@ -11,7 +11,7 @@ export default {
   sourceMap: true,
   banner: `/**
   * @name dutier
-  * @description A small (1kb) and simple state management solution for Javascript applications.
+  * @description A small (2kb) and simple state management solution for Javascript applications.
   * @author Luis Vinícius
   * @email luis@uilabs.me
   */`,

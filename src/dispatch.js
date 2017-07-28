@@ -1,5 +1,6 @@
 import asyncReducer from './asyncReducer'
 import applyHandler from './applyHandler'
+import applyMiddleware from './applyMiddleware'
 
 /**
    * @name dispatch
@@ -7,9 +8,11 @@ import applyHandler from './applyHandler'
    * the store state
    * @param { Object } payload The action payload
    */  
-  export default  ( payload ) => {
+  export default payload => {
     return new Promise( resolve => 
       payload.call(null, resolve )
-    ).then(asyncReducer)
+    )
+    .then(asyncReducer)
+    .then(applyMiddleware)
     .then(applyHandler)
   }

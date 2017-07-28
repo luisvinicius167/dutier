@@ -1,9 +1,9 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (1kb), async and simple state management solution for Javascript applications. <br/>
+Dutier is a small (2kb), async and powerfull state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-0.6.2-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-0.6.2-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
+[![npm package](https://img.shields.io/badge/npm-1.0.0-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-1.0.0-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
 
 
 ### Influences
@@ -13,11 +13,12 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* CDN: ```https://unpkg.com/dutier@0.6.2```
+* CDN: ```https://unpkg.com/dutier@1.0.0```
 
 ### Features
- * small 1kb minified
- * Async by default
+ * all you need
+ * small 2kb minified
+ * async by default
  * simple, small learning curve
  * no dependencies
  * promise based
@@ -34,7 +35,7 @@ The application state is stored in an object tree inside a single store. Your ac
 That's it!
 
 ```javascript
-import { createStore } from 'dutier'
+import { createStore, applyMiddleware } from 'dutier'
 
 /**
  * Create the store and pass the reducers if you have.
@@ -43,23 +44,25 @@ import { createStore } from 'dutier'
 const store = createStore(reducer)
 
 /**
- * Actions are pure functions that return a function
- * with the action payload. You need to dispatch
- * the payload information to Reducer
+ * Apply your custom middleware function that
+ * be called each time your store dispatch actions
  */
-function increment( value ) {
-  return dispatch => {
-    // async code here
-    dispatch({ type: 'INCREMENT', value })
-  }
-}
+const logger = data => console.log(data)
+applyMiddleware(logger)
+
+
+/**
+ * Actions are pure functions that return a new function
+ * that will dispatch the payload information to Reducer
+ */
+ const increment = value => dispatch => dispatch({ type: 'INCREMENT', value })
 
 /**
  * Reducer
- * Each reducer receives the reducer state as fisrt argument,
+ * Each reducer receives the reducer state as first argument,
  * and the action payload
  */
- const initialState = { count: 1 }
+const initialState = { count: 1 }
 function reducer( state=initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':
@@ -102,12 +105,15 @@ store.dispatch
  * @name dispatch
  * @description Trigger some action.
  * @param { Function } The function that return your action payload
- * @return { Promise} Return a Promise with the action payload
+ * @return { Promise } Return a Promise with the action payload
  */
 
 // You can receive the response of your action and do something, or not.
 // If you want, you can chain the dispatch Promises.
 store.dispatch( increment(1) )
+
+store
+  .dispatch( increment(1) )
   .then( ({ type, state }) => {
     console.log(type, state)
   })
@@ -179,6 +185,23 @@ function otherReducer( state={ counter: 1}, { type, value } ) {
 combine( reducer, otherReducer, [, ...reducers ])
 ```
 
+Middleware
+ * Call your custom middlewares
+```javascript
+/**
+ * @name subscribe
+ * @param { Function } middleware Your middleware functions 
+ * that will be called each time your store dispatch actions
+ * @param { Object } data Each middleware function receives a 
+ * data object with the properties action (your action payload), 
+ * oldState (the old state) and state (current state ) 
+ */
+  
+import { applyMiddleware } from 'dutier'
+
+const logger = data => console.log(data)
+applyMiddleware(logger [, ...middlewares ])
+```
 
 store.subscribe
  * It will be called any time an action is dispatched and just if the state was changed.
