@@ -189,7 +189,7 @@ Middleware
  * Call your custom middlewares
 ```javascript
 /**
- * @name subscribe
+ * @name middleware
  * @param { Function } middleware Your middleware functions 
  * that will be called each time your store dispatch actions
  * @param { Object } data Each middleware function receives a 
