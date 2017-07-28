@@ -24,6 +24,10 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * promise based
  * inspired by Redux
  
+ ### Libraries & Add-ons:
+ - :raised_hands:[dutier-logger](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
+ 
+ 
  ### React TodoMVC Example:
  [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mZnrX7GN0)
 
