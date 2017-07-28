@@ -25,13 +25,15 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * inspired by Redux
  
  ### Libraries & Add-ons:
- - :raised_hands:[dutier-logger](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
+ - :raised_hands: [**dutier-logger**](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
  
  
- ### React TodoMVC Example:
- [![React with Dutier](https://codesandbox.io/static/img/play-codesandbox.svg)](https://codesandbox.io/s/mZnrX7GN0)
+ ### Demos
+ - :bookmark: [React with Dutier](https://codesandbox.io/s/mZnrX7GN0)
 
-With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state, and the `dispatch` method always return new values based on your state.
+
+### All you need
+With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state and the `dispatch` method always return new values based on your state.
 
 ### The Gist
 The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
@@ -40,6 +42,7 @@ That's it!
 
 ```javascript
 import { createStore, applyMiddleware } from 'dutier'
+import Logger from 'dutier-logger'
 
 /**
  * Reducer
@@ -66,9 +69,10 @@ const store = createStore(reducer)
 /**
  * Apply your custom middleware function that
  * be called each time your store dispatch actions
+ * You can use Dutier Logger library.
+ * https://github.com/luisvinicius167/dutier-logger
  */
-const logger = data => console.log(data)
-applyMiddleware(logger)
+applyMiddleware(Logger)
 
 
 /**
