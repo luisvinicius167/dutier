@@ -8,10 +8,9 @@
 export default (state) => {
   return (
     function(state) {
-      var state = Object.assign({}, state)
       return current => {
         state = Object.assign({}, state, current)
-        return state
+        return Object.assign({}, state)
       }
     }(state)
   )
