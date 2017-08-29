@@ -1,6 +1,6 @@
 {
   "name": "dutier",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Dutier is a small (2kb), async and powerfull state management solution for Javascript applications.",
   "main": "dist/dutier.min.js",
   "module": "src/index.js",
