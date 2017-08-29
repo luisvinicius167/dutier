@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-Dutier is a small (2kb), async and powerfull state management solution for Javascript applications. <br/>
+Dutier is a small (2kb), async and hybrid state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-1.0.1-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-1.0.1-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
@@ -23,6 +23,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  * simple, small learning curve
  * no dependencies
  * promise based
+ * Works well with any Javascript Framework
  * inspired by Redux
  
  ### React TodoMVC Example:
