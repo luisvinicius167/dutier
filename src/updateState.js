@@ -10,7 +10,7 @@ export default (state) => {
     function(state) {
       return current => {
         state = Object.assign({}, state, current)
-        return Object.assign({}, state)
+        return JSON.parse(JSON.stringify(state))
       }
     }(state)
   )
