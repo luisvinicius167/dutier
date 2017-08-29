@@ -17,6 +17,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Features
  * all you need
+ * immutable state
  * small 2kb minified
  * async by default
  * simple, small learning curve
