@@ -1,9 +1,9 @@
 {
   "name": "dutier",
-  "version": "1.0.2",
-  "description": "The immutable, async and hybrid state management solution for Javascript applications.",
+  "version": "1.0.3",
+  "description": "The immutable, async and universal state management solution for Javascript applications.",
   "main": "dist/dutier.min.js",
-  "module": "src/index.js",
+  "module": "dist/dutier.js",
   "scripts": {
     "prebuild": "npm run clean",
     "build": "npm run rollup & npm run rollup:production",
@@ -14,8 +14,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "dist",
-    "src"
+    "dist"
   ],
   "repository": {
     "type": "git",
