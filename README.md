@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-The immutable, async and hybrid state management solution for Javascript applications. <br/>
+The immutable, async and universal state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-1.0.3-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-1.0.3-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
