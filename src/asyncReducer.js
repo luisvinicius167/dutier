@@ -8,16 +8,14 @@ import { Provider } from './providers'
  */
 export default action => {
   return new Promise( resolve  => {
-    for ( let reducer of Provider._reducers ) {
-      const [ reducerFunction, reducerProps ] = reducer
-      const stateReducer = reducerProps.current ? reducerProps.current : reducerProps.initial
-      const current = reducerProps.current = reducerFunction(stateReducer, action)
-      const reducerOldState = reducerFunction(stateReducer, { type: '@@Dutier.OLD_STATE', value: action.value })
-      // pass old state just to middleware
+    Provider._reducers.forEach(({ reducer, initial }) => {
+      const stateReducer = reducer.current ? reducer.current : initial
+      const current = reducer.current = reducer(stateReducer, action, Provider._updateState({}))
+      const reducerOldState = reducer(stateReducer, { type: '@@Dutier.OLD_STATE', value: action.value })
       const oldState = Object.assign({}, Provider._updateState({}), reducerOldState)
       if (JSON.stringify( current ) !== JSON.stringify(stateReducer)) {
         return resolve({ action, oldState, state: Provider._updateState(current) })
       }
-    }
+    })
   })
 }

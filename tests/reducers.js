@@ -1,4 +1,4 @@
-const initialState = { count: 1, arr: [] }
+const initialState = { count: 1 }
 function reducer( state=initialState, { type, value } ) {
   switch (type) {
     case 'INCREMENT':

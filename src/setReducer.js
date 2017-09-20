@@ -11,9 +11,10 @@ export default reducers => {
   if (Provider._updateState({}) === undefined) {
     Provider._updateState = create({})
   }
-  reducers.forEach(reducer => {
+  reducers.forEach( reducer => {
     const initial = reducer(undefined, { type: '@@DUTIER.INITIAL_STATE' })
-    Provider._reducers.set(reducer, { initial })
+    const index = Provider._reducers.length
+    Provider._reducers[index] = { reducer, initial }
     Provider._updateState(initial)
   })
 }

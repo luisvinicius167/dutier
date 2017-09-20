@@ -3,7 +3,7 @@
  */ 
 export const Provider = {
   // The reducers
-  _reducers: new Map(),
+  _reducers: [],
   // The subscribe handlers
   _handlers: [],
   // the middlewares

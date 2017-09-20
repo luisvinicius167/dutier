@@ -15,7 +15,7 @@
  */
 var Provider = {
   // The reducers
-  _reducers: new Map(),
+  _reducers: [],
   // The subscribe handlers
   _handlers: [],
   // the middlewares
@@ -52,12 +52,11 @@ var setReducer = (function (reducers) {
   }
   reducers.forEach(function (reducer) {
     var initial = reducer(undefined, { type: '@@DUTIER.INITIAL_STATE' });
-    Provider._reducers.set(reducer, { initial: initial });
+    var index = Provider._reducers.length;
+    Provider._reducers[index] = { reducer: reducer, initial: initial };
     Provider._updateState(initial);
   });
 });
-
-var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
 /**
  * Async Reducer
@@ -67,41 +66,18 @@ var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = [
  */
 var asyncReducer = (function (action) {
   return new Promise(function (resolve) {
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
+    Provider._reducers.forEach(function (_ref) {
+      var reducer = _ref.reducer,
+          initial = _ref.initial;
 
-    try {
-      for (var _iterator = Provider._reducers[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-        var reducer = _step.value;
-
-        var _reducer = _slicedToArray(reducer, 2),
-            reducerFunction = _reducer[0],
-            reducerProps = _reducer[1];
-
-        var stateReducer = reducerProps.current ? reducerProps.current : reducerProps.initial;
-        var current = reducerProps.current = reducerFunction(stateReducer, action);
-        var reducerOldState = reducerFunction(stateReducer, { type: '@@Dutier.OLD_STATE', value: action.value }
-        // pass old state just to middleware
-        );var oldState = Object.assign({}, Provider._updateState({}), reducerOldState);
-        if (JSON.stringify(current) !== JSON.stringify(stateReducer)) {
-          return resolve({ action: action, oldState: oldState, state: Provider._updateState(current) });
-        }
+      var stateReducer = reducer.current ? reducer.current : initial;
+      var current = reducer.current = reducer(stateReducer, action, Provider._updateState({}));
+      var reducerOldState = reducer(stateReducer, { type: '@@Dutier.OLD_STATE', value: action.value });
+      var oldState = Object.assign({}, Provider._updateState({}), reducerOldState);
+      if (JSON.stringify(current) !== JSON.stringify(stateReducer)) {
+        return resolve({ action: action, oldState: oldState, state: Provider._updateState(current) });
       }
-    } catch (err) {
-      _didIteratorError = true;
-      _iteratorError = err;
-    } finally {
-      try {
-        if (!_iteratorNormalCompletion && _iterator.return) {
-          _iterator.return();
-        }
-      } finally {
-        if (_didIteratorError) {
-          throw _iteratorError;
-        }
-      }
-    }
+    });
   });
 });
 
