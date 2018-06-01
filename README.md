@@ -2,8 +2,8 @@
 
 The immutable, async and universal state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-1.0.4-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-1.0.4-ff69b4.svg)](https://unpkg.com/dutier@0.6.1)
+[![npm package](https://img.shields.io/badge/npm-1.0.5-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-1.0.5-ff69b4.svg)](https://unpkg.com/dutier@1.0.5)
 
 
 ### Influences
@@ -13,12 +13,14 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* CDN: ```https://unpkg.com/dutier@1.0.4```
+* CDN: ```https://unpkg.com/dutier@1.0.5```
 
 ### Features
  * immutable state
  * small 2kb minified
  * async by default
+ * react provider
+ * devtools
  * simple, small learning curve
  * no dependencies
  * promise based
@@ -27,7 +29,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  
  ### Libraries & Add-ons:
  - :raised_hands: [**dutier-logger**](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
- 
+ - :raised_hands: [**react-dutier**](https://www.npmjs.com/package/react-dutier): Dutier React Provider. 
  
  ### Demos
  - :bookmark: [React with Dutier](https://codesandbox.io/s/mZnrX7GN0)
@@ -118,6 +120,92 @@ store.dispatch( increment( 1 ) )
    console.log(`The value is: ${getState().count}`) // 2
  })
 ```
+
+### React 
+* NPM: ``` npm install react-dutier ```
+* Yarn: ``` yarn add react-dutier ```
+
+```javascript
+/**
+ * @name Provider
+ * @description Provider your store to your application and 
+ * provides the state and dispatch store methods to the first level
+ * children Components.
+ * 
+ * @param {Children} A React Children Element
+ */
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-dutier'
+import devtools from 'dutier/devtools'
+import reducers from './reducers'
+
+const store = devtools(createStore(reducers))
+
+const Increment = ({ state, dispatch }) => 
+  <div> 
+    <p> Count: {state.count} </p> 
+    <button onClick={() => dispatch(increment(1))}> Increment</button>
+  </div>
+
+const Decrement = ({ state, dispatch }) => 
+  <div> 
+    <p> Count: {state.count} </p> 
+    <button onClick={() => dispatch(decrement(1))}> Decrement</button>
+  </div>
+
+const class App = () => 
+  <Provider store={store}>
+    <Increment />
+    <Decrement />
+  </Provider>
+
+render(<App/>, document.getElementById('root'))
+
+/**
+ * @name Connect
+ * @description You can use Connect component to pass the 
+ * state and disptach to any Component that
+ * you want.
+ * 
+ * @param {Children} A React Children Element
+ */
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import { Connect } from 'react-dutier'
+import Login from 'containers/login'
+
+
+class Login extends Component {
+  componentDidMount(){
+    console.log(this.props) // logs: { state, dispatch }
+  }
+  render(){
+    return (<div />)
+  }
+}
+
+export default () =>
+ <Router>
+    <Switch>
+      <Route exact path="/login" render={ () => <Connect><Login/></Connect> } />
+      <Route path="/login" component={Dashboard} />
+    </Switch>
+  </Router>
+```
+
+### Devtools
+```javascript
+/**
+ * @name devtools
+ * @description Dutier Version of Redux devtools.
+ * @param { Store|Object } Dutier Store
+ */
+import { createStore } from 'dutier'
+import devtools from 'dutier/devtools'
+
+const store = devtools(createStore())
+```
+
 
 ### Simple and efficient API.
 
