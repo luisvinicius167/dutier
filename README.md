@@ -2,8 +2,8 @@
 
 The immutable, async and universal state management solution for Javascript applications. <br/>
 
-[![npm package](https://img.shields.io/badge/npm-1.0.5-blue.svg)](https://www.npmjs.com/package/dutier)
-[![CDN](https://img.shields.io/badge/cdn-1.0.5-ff69b4.svg)](https://unpkg.com/dutier@1.0.5)
+[![npm package](https://img.shields.io/badge/npm-1.0.7-blue.svg)](https://www.npmjs.com/package/dutier)
+[![CDN](https://img.shields.io/badge/cdn-1.0.7-ff69b4.svg)](https://unpkg.com/dutier@1.0.7)
 
 
 ### Influences
@@ -14,7 +14,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 ### Install
 * NPM: ``` npm install dutier ```
 * NPM: ``` yarn add dutier ```
-* CDN: ```https://unpkg.com/dutier@1.0.5```
+* CDN: ```https://unpkg.com/dutier@1.0.7```
 
 ### Features
  * immutable state
