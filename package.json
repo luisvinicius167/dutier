@@ -1,6 +1,6 @@
 {
   "name": "dutier",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "The immutable, async and universal state management solution for Javascript applications.",
   "main": "dist/dutier.min.js",
   "module": "dist/dutier.js",
@@ -14,7 +14,8 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "files": [
-    "dist"
+    "dist",
+    "devtools.js"
   ],
   "repository": {
     "type": "git",

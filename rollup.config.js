@@ -11,9 +11,9 @@ export default {
   sourceMap: true,
   banner: `/**
   * @name dutier
-  * @description A small (2kb) and simple state management solution for Javascript applications.
+  * @description The immutable, async and universal state management solution for Javascript applications. 
   * @author Luis Vinícius
-  * @email luis@uilabs.me
+  * @email luisviniciusbarreto@gmail.com
   */`,
   plugins: [
     babel()
