@@ -11,17 +11,10 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ## Getting Started
 
-<<<<<<< HEAD
 ### Install
 * NPM: ``` npm install dutier ```
 * NPM: ``` yarn add dutier ```
 * CDN: ```https://unpkg.com/dutier@1.0.8```
-=======
-### Installation
-* npm: ``` npm install dutier ```
-* yarn: ``` yarn add dutier ```
-* CDN: ```https://unpkg.com/dutier@1.0.7```
->>>>>>> 4b41d4995c7dc8f7e152e798141e3a62b99a9bc3
 
 ### Features
  * immutable state
