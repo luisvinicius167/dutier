@@ -164,18 +164,18 @@ const class App = () =>
 render(<App/>, document.getElementById('root'))
 
 /**
- * @name Connect
- * @description You can use Connect component to pass the 
- * state and disptach to any Component that
- * you want.
+ * @name withStore
+ * @description You can use withStore function to pass the 
+ * store state and disptach method as props to any Component 
+ * that you want.
  * 
- * @param {Children} A React Children Element
+ * @param {Function}
  */
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { Connect } from 'react-dutier'
+import { withStore } from 'react-dutier'
 import Login from 'containers/login'
 
-
+// login.js
 class Login extends Component {
   componentDidMount(){
     console.log(this.props) // logs: { state, dispatch }
@@ -185,13 +185,7 @@ class Login extends Component {
   }
 }
 
-export default () =>
- <Router>
-    <Switch>
-      <Route exact path="/login" render={ () => <Connect><Login/></Connect> } />
-      <Route path="/login" component={Dashboard} />
-    </Switch>
-  </Router>
+export default withStore(Login)
 ```
 
 ### Devtools
