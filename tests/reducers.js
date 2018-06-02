@@ -1,17 +1,17 @@
 const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
+function reducer( state=initialState, { type, payload } ) {
   switch (type) {
     case 'INCREMENT':
-      return { count: state.count + value }
+      return { count: state.count + payload }
     default:
       return state
   }
 }
 
-function reducer2( state = { counter: 1 }, { type, value } ) {
+function reducer2( state = { counter: 1 }, { type, payload } ) {
     switch (type) {
     case 'ASYNC_INCREMENT':
-      return { counter: state.counter + value }
+      return { counter: state.counter + payload }
     default:
       return state
   }
