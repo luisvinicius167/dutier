@@ -36,9 +36,17 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 - :pencil: [React Todo with Dutier](https://codesandbox.io/s/3lov40m86)
 
 
-### All you need
+### Async Actions
 With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state and the `dispatch` method always return new values based on your state.
 
+The `dispatch` is async by default, then you can use `async/await` with `dispatch` method. 
+
+```javascript
+  async function handler() {
+   const value = 1
+   await dispatch(action(value))  
+  } 
+```
 
 ### React 
 * npm: ``` npm install react-dutier ```
@@ -97,6 +105,7 @@ class App extends Component {
   componentDidMount(){
     console.log(this.props) // logs: { state, dispatch }
   }
+  
   render(){
     return (<div />)
   }
