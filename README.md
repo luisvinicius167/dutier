@@ -30,7 +30,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  
  ### Libraries & Add-ons:
  - :raised_hands: [**dutier-logger**](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
- - :loop: [**react-dutier**](https://www.npmjs.com/package/react-dutier): React bindings for Dutier. Performant and flexible.
+ - :loop: [**react-dutier**](https://github.com/luisvinicius167/dutier/blob/master/README.md#react): React bindings for Dutier. Performant and flexible.
  
  ### Demos
 - :pencil: [React Todo with Dutier](https://codesandbox.io/s/3lov40m86)
