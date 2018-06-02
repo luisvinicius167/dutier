@@ -122,7 +122,7 @@ store.dispatch( increment( 1 ) )
  })
 ```
 
-### React 
+### The React Gist 
 * NPM: ``` npm install react-dutier ```
 * Yarn: ``` yarn add react-dutier ```
 
