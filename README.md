@@ -48,10 +48,10 @@ With `Dutier` your `actions` are pure functions that returns a function with the
 /**
  * @name Provider
  * @description Provider your store to your application and 
- * provides the state and dispatch store methods to the first level
- * children Components.
+ * provides the store state and store dispatch method to the
+ * first children Components level.
  * 
- * @param {Children} A React Children Element
+ * @param {Object|Store} store The Store instance
  */
 import React from 'react'
 import { render } from 'react-dom'
