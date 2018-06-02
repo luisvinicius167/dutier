@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-The immutable, async and universal state management solution for Javascript applications. <br/>
+The 2kb immutable, async and universal state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-1.0.7-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-1.0.7-ff69b4.svg)](https://unpkg.com/dutier@1.0.7)
@@ -11,9 +11,9 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ## Getting Started
 
-### Install
-* NPM: ``` npm install dutier ```
-* NPM: ``` yarn add dutier ```
+### Installation
+* npm: ``` npm install dutier ```
+* yarn: ``` yarn add dutier ```
 * CDN: ```https://unpkg.com/dutier@1.0.7```
 
 ### Features
@@ -30,7 +30,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  
  ### Libraries & Add-ons:
  - :raised_hands: [**dutier-logger**](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
- - :raised_hands: [**react-dutier**](https://www.npmjs.com/package/react-dutier): Dutier React Provider. 
+ - :loop: [**react-dutier**](https://www.npmjs.com/package/react-dutier): React bindings for Dutier. Performant and flexible.
  
  ### Demos
  - :bookmark: [React with Dutier](https://codesandbox.io/s/mZnrX7GN0)
@@ -39,92 +39,12 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 ### All you need
 With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state and the `dispatch` method always return new values based on your state.
 
-### The Gist
-The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
 
-That's it!
+### React 
+* npm: ``` npm install react-dutier ```
+* yarn: ``` yarn add react-dutier ```
 
-```javascript
-import { createStore, applyMiddleware } from 'dutier'
-import Logger from 'dutier-logger'
-
-/**
- * Reducer
- * The reducer state needs to be an Object
- * Each reducer receives the reducer state as fisrt argument
- * and the action payload
- */
-const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
-  switch (type) {
-    case 'INCREMENT':
-        return { count: state.count + value }
-    default:
-      return state  
-  }
-}
-
-/**
- * Create the store and pass the reducers if you have.
- * Create store returns the functions: subscribe, dispatch and getState
- */
-const store = createStore(reducer)
-
-/**
- * Apply your custom middleware function that
- * be called each time your store dispatch actions
- * You can use Dutier Logger library.
- * https://github.com/luisvinicius167/dutier-logger
- */
-applyMiddleware(Logger)
-
-
-/**
- * Actions are pure functions that return a new function
- * that will dispatch the payload information to Reducer
- */
- const increment = value => dispatch => dispatch({ type: 'INCREMENT', value })
-
-/**
- * Reducer
- * Each reducer receives the reducer state as first argument,
- * and the action payload
- */
-const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
-  switch (type) {
-    case 'INCREMENT':
-        return { count: state.count + value }
-    default:
-      return state  
-  }
-}
-    
-/**
- * You can use store.subscribe() to update your UI in response to actions;
- * The subscribe are just be called if the state was changed.
- */
- componentWillMount() {
-  this.unsubscribe = store.subscribe( { type, state } ) => {
-    console.log('Reducer new state value ', state, 'Store state: ', store.getState())
-  })
- }
-
-
-/**
- * Use store.dispatch to return new values based on the state
- * tree. store.dispatch is async and returns a Promise with your action type and
- * the new state value.
- */
-store.dispatch( increment( 1 ) )
- .then( ({ type, state }) => {
-   console.log(`The value is: ${getState().count}`) // 2
- })
-```
-
-### The React Gist 
-* NPM: ``` npm install react-dutier ```
-* Yarn: ``` yarn add react-dutier ```
+- :pencil: [React Todo with Dutier](https://codesandbox.io/s/mZnrX7GN0)
 
 ```javascript
 /**
@@ -199,6 +119,89 @@ import { createStore } from 'dutier'
 import devtools from 'dutier/devtools'
 
 const store = devtools(createStore())
+```
+
+<img width="600" src="https://cdn-images-1.medium.com/max/2000/1*GrTqKBkhy57rAu4Ro7BVpw.png" />
+
+### Universal
+The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
+
+That's it!
+
+```javascript
+import { createStore, applyMiddleware } from 'dutier'
+import Logger from 'dutier-logger'
+
+/**
+ * Reducer
+ * The reducer state needs to be an Object
+ * Each reducer receives the reducer state as fisrt argument
+ * and the action payload
+ */
+const initialState = { count: 1 }
+function reducer( state=initialState, { type, value } ) {
+  switch (type) {
+    case 'INCREMENT':
+        return { count: state.count + value }
+    default:
+      return state  
+  }
+}
+
+/**
+ * Create the store and pass the reducers if you have.
+ * Create store returns the functions: subscribe, dispatch and getState
+ */
+const store = createStore(reducer)
+
+/**
+ * Apply your custom middleware function that
+ * be called each time your store dispatch actions
+ * You can use Dutier Logger library.
+ * https://github.com/luisvinicius167/dutier-logger
+ */
+applyMiddleware(Logger)
+
+
+/**
+ * Actions are pure functions that return a new function
+ * that will dispatch the payload information to Reducer
+ */
+ const increment = value => dispatch => dispatch({ type: 'INCREMENT', value })
+
+/**
+ * Reducer
+ * Each reducer receives the reducer state as first argument,
+ * and the action payload
+ */
+const initialState = { count: 1 }
+function reducer( state=initialState, { type, value } ) {
+  switch (type) {
+    case 'INCREMENT':
+        return { count: state.count + value }
+    default:
+      return state  
+  }
+}
+    
+/**
+ * You can use store.subscribe() to update your UI in response to actions;
+ * The subscribe are just be called if the state was changed.
+ */
+  this.unsubscribe = store.subscribe( { type, state } ) => {
+    console.log('Reducer new state value ', state, 'Store state: ', store.getState())
+  })
+
+
+/**
+ * Use store.dispatch to return new values based on the state
+ * tree. store.dispatch is async and returns a Promise with your action type and
+ * the new state value.
+ */
+store.dispatch( increment( 1 ) )
+ .then( ({ type, state }) => {
+   console.log(`The value is: ${getState().count}`) // 2
+ })
 ```
 
 
