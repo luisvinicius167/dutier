@@ -1,6 +1,6 @@
 {
   "name": "dutier",
-  "version": "1.0.9",
+  "version": "1.1.0",
   "description": "The immutable, async and universal state management solution for Javascript applications.",
   "main": "dist/dutier.min.js",
   "module": "dist/dutier.js",
