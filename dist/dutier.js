@@ -86,14 +86,15 @@ var asyncReducer = (function (action) {
  */
 var applyHandler = (function (_ref) {
   var type = _ref.type,
-      state = _ref.state;
+      state = _ref.state,
+      payload = _ref.payload;
 
   Provider._handlers.forEach(function (handler) {
     if (handler !== undefined && typeof handler === 'function') {
-      handler({ type: type, state: state });
+      handler({ type: type, state: state, payload: payload });
     }
   });
-  return { type: type, state: state };
+  return { type: type, state: state, payload: payload };
 });
 
 var applyMiddleware = (function (data) {
