@@ -60,7 +60,7 @@ var setReducer = (function (reducers) {
 
 /**
  * Async Reducer
- * Just dispatch if return new state values.
+ * Just dispatch if return new state payloads.
  * With this, the subscribe function will not be
  * called unnecessary, because the state don't be changed
  */
@@ -72,7 +72,7 @@ var asyncReducer = (function (action) {
 
       var stateReducer = reducer.current ? reducer.current : initial;
       var current = reducer.current = reducer(stateReducer, action, Provider._updateState({}));
-      var reducerOldState = reducer(stateReducer, { type: '@@Dutier.OLD_STATE', value: action.value });
+      var reducerOldState = reducer(stateReducer, { type: '@@Dutier.OLD_STATE', payload: action.payload });
       var oldState = Object.assign({}, Provider._updateState({}), reducerOldState);
       if (JSON.stringify(current) !== JSON.stringify(stateReducer)) {
         return resolve({ action: action, oldState: oldState, state: Provider._updateState(current) });
@@ -100,7 +100,7 @@ var applyMiddleware = (function (data) {
   Provider._middlewares.forEach(function (middleware) {
     return middleware.call(null, data);
   });
-  return Promise.resolve({ type: data.action.type, state: data.state });
+  return Promise.resolve({ type: data.action.type, payload: data.action.payload, state: data.state });
 });
 
 /**
@@ -187,43 +187,9 @@ var middleware = (function () {
   Provider._middlewares = Provider._middlewares.concat(middlewares);
 });
 
-function dutierDevTools(store) {
-  var extension = window.__REDUX_DEVTOOLS_EXTENSION__ || window.top.__REDUX_DEVTOOLS_EXTENSION__;
-  var ignoreState = false;
-
-  if (!extension) {
-    console.warn('Please install/enable Redux devtools extension');
-    store.devtools = null;
-    return store;
-  }
-
-  if (!store.devtools) {
-    store.devtools = extension.connect();
-    store.devtools.subscribe(function (message) {
-      if (message.type === 'DISPATCH' && message.state) {
-        ignoreState = message.payload.type === 'JUMP_TO_ACTION' || message.payload.type === 'JUMP_TO_STATE';
-        store.setState(JSON.parse(message.state), true);
-      }
-    });
-    store.devtools.init(store.getState());
-    store.subscribe(function (state, action) {
-      var actionName = action && action.name || 'setState';
-
-      if (!ignoreState) {
-        store.devtools.send(actionName, state);
-      } else {
-        ignoreState = false;
-      }
-    });
-  }
-
-  return store;
-}
-
 exports.applyMiddleware = middleware;
 exports.createStore = createStore;
 exports.combine = combine;
-exports.devtools = dutierDevTools;
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
