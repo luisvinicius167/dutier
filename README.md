@@ -31,10 +31,6 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  ### Libraries & Add-ons:
  - :raised_hands: [**dutier-logger**](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
  - :loop: [**react-dutier**](https://www.npmjs.com/package/react-dutier): React bindings for Dutier. Performant and flexible.
- 
- ### Demos
- - :bookmark: [React with Dutier](https://codesandbox.io/s/mZnrX7GN0)
-
 
 ### All you need
 With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state and the `dispatch` method always return new values based on your state.
@@ -44,7 +40,7 @@ With `Dutier` your `actions` are pure functions that returns a function with the
 * npm: ``` npm install react-dutier ```
 * yarn: ``` yarn add react-dutier ```
 
-- :pencil: [React Todo with Dutier](https://codesandbox.io/s/mZnrX7GN0)
+- :pencil: [React Todo with Dutier](https://codesandbox.io/s/3lov40m86)
 
 ```javascript
 /**
