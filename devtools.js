@@ -17,8 +17,8 @@ export default function dutierDevTools (store) {
       }
     })
     store.devtools.init(store.getState())
-    store.subscribe(function (state, action) {
-      var actionName = (action && action.name) || 'setState'
+    store.subscribe(function (data) {
+      var actionName = data.type
 
       if (!ignoreState) {
         store.devtools.send(actionName, state)
