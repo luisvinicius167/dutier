@@ -118,7 +118,7 @@ import devtools from 'dutier/devtools'
 const store = devtools(createStore())
 ```
 
-<img width="600" src="https://cdn-images-1.medium.com/max/2000/1*GrTqKBkhy57rAu4Ro7BVpw.png" />
+<img width="600" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/devtools.png" />
 
 ### Universal
 The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
