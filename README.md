@@ -89,12 +89,11 @@ render(<App/>, document.getElementById('root'))
  * 
  * @param {Function}
  */
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+ import React, { Component } from 'react'
 import { withStore } from 'react-dutier'
-import Login from 'containers/login'
+import App from 'containers/app'
 
-// login.js
-class Login extends Component {
+class App extends Component {
   componentDidMount(){
     console.log(this.props) // logs: { state, dispatch }
   }
@@ -103,7 +102,7 @@ class Login extends Component {
   }
 }
 
-export default withStore(Login)
+export default withStore(App)
 ```
 
 ### Devtools
