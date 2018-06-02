@@ -1,6 +1,6 @@
 <img width="200" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/logo.png"/> 
 
-The immutable, async and universal state management solution for Javascript applications. <br/>
+The 2kb immutable, async and universal state management solution for Javascript applications. <br/>
 
 [![npm package](https://img.shields.io/badge/npm-1.0.8-blue.svg)](https://www.npmjs.com/package/dutier)
 [![CDN](https://img.shields.io/badge/cdn-1.0.8-ff69b4.svg)](https://unpkg.com/dutier@1.0.8)
@@ -11,10 +11,17 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ## Getting Started
 
+<<<<<<< HEAD
 ### Install
 * NPM: ``` npm install dutier ```
 * NPM: ``` yarn add dutier ```
 * CDN: ```https://unpkg.com/dutier@1.0.8```
+=======
+### Installation
+* npm: ``` npm install dutier ```
+* yarn: ``` yarn add dutier ```
+* CDN: ```https://unpkg.com/dutier@1.0.7```
+>>>>>>> 4b41d4995c7dc8f7e152e798141e3a62b99a9bc3
 
 ### Features
  * immutable state
@@ -30,16 +37,106 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
  
  ### Libraries & Add-ons:
  - :raised_hands: [**dutier-logger**](https://github.com/luisvinicius167/dutier-logger): Logger for Dutier inpired by Redux Logger. 
- - :raised_hands: [**react-dutier**](https://www.npmjs.com/package/react-dutier): Dutier React Provider. 
+ - :loop: [**react-dutier**](https://github.com/luisvinicius167/dutier/blob/master/README.md#react): React bindings for Dutier. Performant and flexible.
  
  ### Demos
- - :bookmark: [React with Dutier](https://codesandbox.io/s/mZnrX7GN0)
+- :pencil: [React Todo with Dutier](https://codesandbox.io/s/3lov40m86)
 
 
-### All you need
+### Async Actions
 With `Dutier` your `actions` are pure functions that returns a function with the dispatch method, that will dispatch a payload information about how to work with the state and the `dispatch` method always return new values based on your state.
 
-### The Gist
+The `dispatch` is async by default, then you can use `async/await` with `dispatch` method. 
+
+```javascript
+  async function handler() {
+   const value = 1
+   await dispatch(action(value))  
+  } 
+```
+
+### React 
+* npm: ``` npm install react-dutier ```
+* yarn: ``` yarn add react-dutier ```
+
+```javascript
+/**
+ * @name Provider
+ * @description Provider your store to your application and 
+ * provides the store state and store dispatch method to the
+ * first children Components level.
+ * 
+ * @param {Object|Store} store The Store instance
+ */
+import React from 'react'
+import { render } from 'react-dom'
+import { Provider } from 'react-dutier'
+import devtools from 'dutier/devtools'
+import reducers from './reducers'
+
+const store = devtools(createStore(reducers))
+
+const Increment = ({ state, dispatch }) => 
+  <div> 
+    <p> Count: {state.count} </p> 
+    <button onClick={() => dispatch(increment(1))}> Increment</button>
+  </div>
+
+const Decrement = ({ state, dispatch }) => 
+  <div> 
+    <p> Count: {state.count} </p> 
+    <button onClick={() => dispatch(decrement(1))}> Decrement</button>
+  </div>
+
+const class App = () => 
+  <Provider store={store}>
+    <Increment />
+    <Decrement />
+  </Provider>
+
+render(<App/>, document.getElementById('root'))
+
+/**
+ * @name withStore
+ * @description You can use withStore function to pass the 
+ * store state and disptach method as props to any Component 
+ * that you want.
+ * 
+ * @param {Function}
+ */
+ import React, { Component } from 'react'
+import { withStore } from 'react-dutier'
+import App from 'containers/app'
+
+class App extends Component {
+  componentDidMount(){
+    console.log(this.props) // logs: { state, dispatch }
+  }
+  
+  render(){
+    return (<div />)
+  }
+}
+
+export default withStore(App)
+```
+
+### Devtools
+```javascript
+/**
+ * @name devtools
+ * @description Dutier Version of Redux devtools.
+ * @param { Store|Object } Dutier Store
+ */
+import { createStore } from 'dutier'
+import devtools from 'dutier/devtools'
+
+const store = devtools(createStore())
+```
+
+<img width="600" src="https://raw.githubusercontent.com/luisvinicius167/dutier/master/img/devtools.png" />
+
+### Universal
 The application state is stored in an object tree inside a single store. Your actions will only dispatch information about how work with the state and then return new state values based on your state.
 
 That's it!
@@ -104,11 +201,9 @@ function reducer( state=initialState, { type, value } ) {
  * You can use store.subscribe() to update your UI in response to actions;
  * The subscribe are just be called if the state was changed.
  */
- componentWillMount() {
   this.unsubscribe = store.subscribe( { type, state } ) => {
     console.log('Reducer new state value ', state, 'Store state: ', store.getState())
   })
- }
 
 
 /**
@@ -120,85 +215,6 @@ store.dispatch( increment( 1 ) )
  .then( ({ type, state }) => {
    console.log(`The value is: ${getState().count}`) // 2
  })
-```
-
-### The React Gist 
-* NPM: ``` npm install react-dutier ```
-* Yarn: ``` yarn add react-dutier ```
-
-```javascript
-/**
- * @name Provider
- * @description Provider your store to your application and 
- * provides the state and dispatch store methods to the first level
- * children Components.
- * 
- * @param {Children} A React Children Element
- */
-import React from 'react'
-import { render } from 'react-dom'
-import { Provider } from 'react-dutier'
-import devtools from 'dutier/devtools'
-import reducers from './reducers'
-
-const store = devtools(createStore(reducers))
-
-const Increment = ({ state, dispatch }) => 
-  <div> 
-    <p> Count: {state.count} </p> 
-    <button onClick={() => dispatch(increment(1))}> Increment</button>
-  </div>
-
-const Decrement = ({ state, dispatch }) => 
-  <div> 
-    <p> Count: {state.count} </p> 
-    <button onClick={() => dispatch(decrement(1))}> Decrement</button>
-  </div>
-
-const class App = () => 
-  <Provider store={store}>
-    <Increment />
-    <Decrement />
-  </Provider>
-
-render(<App/>, document.getElementById('root'))
-
-/**
- * @name withStore
- * @description You can use withStore function to pass the 
- * store state and disptach method as props to any Component 
- * that you want.
- * 
- * @param {Function}
- */
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { withStore } from 'react-dutier'
-import Login from 'containers/login'
-
-// login.js
-class Login extends Component {
-  componentDidMount(){
-    console.log(this.props) // logs: { state, dispatch }
-  }
-  render(){
-    return (<div />)
-  }
-}
-
-export default withStore(Login)
-```
-
-### Devtools
-```javascript
-/**
- * @name devtools
- * @description Dutier Version of Redux devtools.
- * @param { Store|Object } Dutier Store
- */
-import { createStore } from 'dutier'
-import devtools from 'dutier/devtools'
-
-const store = devtools(createStore())
 ```
 
 
