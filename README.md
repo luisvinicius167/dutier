@@ -145,10 +145,10 @@ import Logger from 'dutier-logger'
  * and the action payload
  */
 const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
+function reducer( state=initialState, { type, payload } ) {
   switch (type) {
     case 'INCREMENT':
-        return { count: state.count + value }
+        return { count: state.count + payload }
     default:
       return state  
   }
@@ -173,7 +173,7 @@ applyMiddleware(Logger)
  * Actions are pure functions that return a new function
  * that will dispatch the payload information to Reducer
  */
- const increment = value => dispatch => dispatch({ type: 'INCREMENT', value })
+ const increment = payload => dispatch => dispatch({ type: 'INCREMENT', payload })
 
 /**
  * Reducer
@@ -181,10 +181,10 @@ applyMiddleware(Logger)
  * and the action payload
  */
 const initialState = { count: 1 }
-function reducer( state=initialState, { type, value } ) {
+function reducer( state=initialState, { type, payload } ) {
   switch (type) {
     case 'INCREMENT':
-        return { count: state.count + value }
+        return { count: state.count + payload }
     default:
       return state  
   }
@@ -194,7 +194,7 @@ function reducer( state=initialState, { type, value } ) {
  * You can use store.subscribe() to update your UI in response to actions;
  * The subscribe are just be called if the state was changed.
  */
-  this.unsubscribe = store.subscribe( { type, state } ) => {
+  this.unsubscribe = store.subscribe( { type, state, payload } ) => {
     console.log('Reducer new state value ', state, 'Store state: ', store.getState())
   })
 
@@ -240,8 +240,8 @@ Actions
  * Actions are async pure functions that returns a function with the dispatch method as first argument to dispatch the payload information to your reducers, for change the state.
  
 ```javascript
-function increment( value ) {
-  return dispatch => dispatch({ type: 'INCREMENT', value })
+function increment( payload ) {
+  return dispatch => dispatch({ type: 'INCREMENT', payload })
 }
 ```
 
@@ -281,19 +281,19 @@ Combine
  
 import { combine } from 'dutier'
 
-function reducer( state={ count: 1 }, { type, value } ) {
+function reducer( state={ count: 1 }, { type, payload } ) {
   switch (type) {
     case 'INCREMENT':
-      return { count: state.count + value }
+      return { count: state.count + payload }
     default:
       return state  
   }
 }
 
-function otherReducer( state={ counter: 1}, { type, value } ) {
+function otherReducer( state={ counter: 1}, { type, payload } ) {
   switch (type) {
     case 'ADD':
-      return { count: value }
+      return { count: payload }
     default:
       return state  
   }
@@ -331,7 +331,7 @@ store.subscribe
   
   componentWillMount(){
      // Subscribe to changes on your store, do something with the value.
-     this.unsubscribe = store.subscribe(( { type, state } ) => {
+     this.unsubscribe = store.subscribe(( { type, state, payload } ) => {
        this.setState( { count: store.getState().count } )
      })
   }
