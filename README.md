@@ -141,8 +141,8 @@ import Logger from 'dutier-logger'
 /**
  * Reducer
  * The reducer state needs to be an Object
- * Each reducer receives the reducer state as fisrt argument
- * and the action payload
+ * Each reducer receives the reducer state as first argument
+ * the action payload and the application state as third agument
  */
 const initialState = { count: 1 }
 function reducer( reducerState=initialState, { type, payload }, state ) {
