@@ -145,12 +145,12 @@ import Logger from 'dutier-logger'
  * and the action payload
  */
 const initialState = { count: 1 }
-function reducer( state=initialState, { type, payload } ) {
+function reducer( reducerState=initialState, { type, payload }, state ) {
   switch (type) {
     case 'INCREMENT':
         return { count: state.count + payload }
     default:
-      return state  
+      return reducerState  
   }
 }
 
@@ -178,15 +178,15 @@ applyMiddleware(Logger)
 /**
  * Reducer
  * Each reducer receives the reducer state as first argument,
- * and the action payload
+ * the action payload and the application state as third parameter
  */
 const initialState = { count: 1 }
-function reducer( state=initialState, { type, payload } ) {
+function reducer( reducerState=initialState, { type, payload }, state ) {
   switch (type) {
     case 'INCREMENT':
         return { count: state.count + payload }
     default:
-      return state  
+      return reducerState  
   }
 }
     
@@ -281,21 +281,21 @@ Combine
  
 import { combine } from 'dutier'
 
-function reducer( state={ count: 1 }, { type, payload } ) {
+function reducer( reducerState={ count: 1 }, { type, payload }, state ) {
   switch (type) {
     case 'INCREMENT':
       return { count: state.count + payload }
     default:
-      return state  
+      return reducerState  
   }
 }
 
-function otherReducer( state={ counter: 1}, { type, payload } ) {
+function otherReducer( reducerState={ counter: 1}, { type, payload }, state ) {
   switch (type) {
     case 'ADD':
       return { count: payload }
     default:
-      return state  
+      return reducerState  
   }
 }
 
