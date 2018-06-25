@@ -1,5 +1,6 @@
 const initialState = { count: 1 }
 function reducer( state=initialState, { type, payload } ) {
+  console.log('inside reducer', state)
   switch (type) {
     case 'INCREMENT':
       return { count: state.count + payload }

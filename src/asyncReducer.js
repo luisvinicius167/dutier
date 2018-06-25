@@ -9,12 +9,12 @@ import { Provider } from './providers'
 export default action => {
   return new Promise( resolve  => {
     Provider._reducers.forEach(({ reducer, initial }) => {
-      const stateReducer = reducer.current ? reducer.current : initial
-      const current = reducer.current = reducer(stateReducer, action, Provider._updateState({}))
-      const reducerOldState = reducer(stateReducer, { type: '@@Dutier.OLD_STATE', payload: action.payload })
-      const oldState = Object.assign({}, Provider._updateState({}), reducerOldState)
-      if (JSON.stringify( current ) !== JSON.stringify(stateReducer)) {
-        return resolve({ action, oldState, state: Provider._updateState(current) })
+      const oldState = reducer.current ? Provider._updateState({}) : initial
+      reducer.current = oldState
+      const state = reducer(oldState, action)
+      const reducerState = reducer(oldState, { action: '@@DUTIER.ACTION', payload: action.payload })
+      if (JSON.stringify( reducerState ) !== JSON.stringify(state)) {
+        return resolve({ action, oldState, state: Provider._updateState(state) })
       }
     })
   })

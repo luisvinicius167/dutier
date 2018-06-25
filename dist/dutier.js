@@ -70,12 +70,12 @@ var asyncReducer = (function (action) {
       var reducer = _ref.reducer,
           initial = _ref.initial;
 
-      var stateReducer = reducer.current ? reducer.current : initial;
-      var current = reducer.current = reducer(stateReducer, action, Provider._updateState({}));
-      var reducerOldState = reducer(stateReducer, { type: '@@Dutier.OLD_STATE', payload: action.payload });
-      var oldState = Object.assign({}, Provider._updateState({}), reducerOldState);
-      if (JSON.stringify(current) !== JSON.stringify(stateReducer)) {
-        return resolve({ action: action, oldState: oldState, state: Provider._updateState(current) });
+      var oldState = reducer.current ? Provider._updateState({}) : initial;
+      reducer.current = oldState;
+      var state = reducer(oldState, action);
+      var reducerState = reducer(oldState, { action: '@@DUTIER.ACTION', payload: action.payload });
+      if (JSON.stringify(reducerState) !== JSON.stringify(state)) {
+        return resolve({ action: action, oldState: oldState, state: Provider._updateState(state) });
       }
     });
   });
