@@ -13,7 +13,7 @@ It evolves on the ideas of [Redux](https://github.com/reactjs/redux).
 
 ### Install
 * NPM: ``` npm install dutier ```
-* NPM: ``` yarn add dutier ```
+* Yarn: ``` yarn add dutier ```
 * CDN: ```https://unpkg.com/dutier@1.1.4```
 
 ### Features
